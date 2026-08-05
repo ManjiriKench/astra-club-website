@@ -443,325 +443,341 @@ const INITIAL_PROJECTS_DATA = [
   }
 ];
 
-// Initial Seed Members — 2025-26 Induction PPT Roster
+// Initial Seed Members — 2025-26 PPT Roster + Technical Roster
 const INITIAL_MEMBERS_DATA = [
 
-  // ─── CATEGORY 1: Faculty ───────────────────────────────────────
+  // ─── CATEGORY 1: MEET OUR TEAM (From Induction PPT) ─────────────────────
   {
-    id: "mem-f1",
+    id: "mem-ppt-1",
     name: "Prof. Yogita Patil",
     role: "Faculty Mentor",
     category: "1",
     domain: "all",
     imageUrl: "yogita.jpg",
-    linkedinUrl: "https://www.linkedin.com/",
+    linkedinUrl: "#",
     githubUrl: "#"
   },
-
-  // ─── CATEGORY 2: Core Executive Leadership ─────────────────────
   {
-    id: "mem-c1",
+    id: "mem-ppt-2",
     name: "Namash Kate",
     role: "President",
-    category: "2",
+    category: "1",
     domain: "cybersec",
     imageUrl: "namash.jpg",
     linkedinUrl: "https://www.linkedin.com/in/namash-kate",
     githubUrl: "https://github.com/namash-kate"
   },
   {
-    id: "mem-c2",
+    id: "mem-ppt-3",
     name: "Yash Lund",
     role: "Vice-President",
-    category: "2",
+    category: "1",
     domain: "all",
     imageUrl: "yash.jpg",
     linkedinUrl: "https://www.linkedin.com/in/yash-lund",
     githubUrl: "https://github.com/yash-lund"
   },
   {
-    id: "mem-c3",
+    id: "mem-ppt-4",
     name: "Mayank Patil",
     role: "Lead Developer",
-    category: "2",
+    category: "1",
     domain: "cybersec",
     imageUrl: "maya.jpg",
     linkedinUrl: "https://www.linkedin.com/in/mayank-patil",
     githubUrl: "https://github.com/mayank-patil"
   },
-
-  // ─── CATEGORY 3: Technical Domain Heads ────────────────────────
   {
-    id: "mem-l1",
+    id: "mem-ppt-5",
     name: "Om Dangi",
     role: "ML Head",
-    category: "3",
+    category: "1",
     domain: "aiml",
     imageUrl: "Om.jpg",
     linkedinUrl: "https://www.linkedin.com/in/om-dangi",
     githubUrl: "https://github.com/om-dangi"
   },
   {
-    id: "mem-l2",
+    id: "mem-ppt-6",
     name: "Karthik Kurup",
     role: "R&D Head",
-    category: "3",
+    category: "1",
     domain: "research",
     imageUrl: "karthik.jpg",
     linkedinUrl: "https://www.linkedin.com/in/karthik-kurup",
     githubUrl: "https://github.com/karthik-kurup"
   },
   {
-    id: "mem-l3",
+    id: "mem-ppt-7",
     name: "Anish Pathak",
     role: "AI Head",
-    category: "3",
+    category: "1",
     domain: "aiml",
     imageUrl: "Anish.jpg",
     linkedinUrl: "https://www.linkedin.com/in/anish-pathak",
     githubUrl: "https://github.com/anish-pathak"
   },
   {
-    id: "mem-l4",
+    id: "mem-ppt-8",
     name: "Pravesh Jain",
     role: "DS Head",
-    category: "3",
+    category: "1",
     domain: "aiml",
     imageUrl: "Pravesh.jpg",
     linkedinUrl: "https://www.linkedin.com/in/pravesh-jain",
     githubUrl: "https://github.com/pravesh-jain"
   },
   {
-    id: "mem-l5",
+    id: "mem-ppt-9",
     name: "Om Nerkar",
     role: "IOT Head",
-    category: "3",
+    category: "1",
     domain: "iot",
     imageUrl: "om nerkar.jpg",
     linkedinUrl: "https://www.linkedin.com/in/om-nerkar",
     githubUrl: "https://github.com/om-nerkar"
   },
   {
-    id: "mem-l6",
+    id: "mem-ppt-10",
     name: "Manjiri Kench",
     role: "Fullstack Head",
-    category: "3",
+    category: "1",
     domain: "web",
     imageUrl: "a.jpg",
     linkedinUrl: "https://www.linkedin.com/in/manjiri-kench",
     githubUrl: "https://github.com/manjiri-kench"
   },
   {
-    id: "mem-l7",
+    id: "mem-ppt-11",
     name: "Khushi Thakkar",
     role: "UI/UX Head",
-    category: "3",
+    category: "1",
     domain: "web",
     imageUrl: "khushi.jpg",
     linkedinUrl: "https://www.linkedin.com/in/khushi-thakkar",
     githubUrl: "https://github.com/khushi-thakkar"
   },
   {
-    id: "mem-l8",
+    id: "mem-ppt-12",
     name: "Anay Khatpe",
     role: "Cybersecurity Head",
-    category: "3",
+    category: "1",
     domain: "cybersec",
     imageUrl: "Anay.jpg",
     linkedinUrl: "https://www.linkedin.com/in/anay-khatpe",
     githubUrl: "https://github.com/anay-khatpe"
   },
   {
-    id: "mem-l9",
+    id: "mem-ppt-13",
     name: "Mehwish Tabbassum",
     role: "Management Head",
-    category: "3",
+    category: "1",
     domain: "all",
     imageUrl: "Mehwish.jpg",
     linkedinUrl: "https://www.linkedin.com/in/mehwish-tabbassum",
     githubUrl: "https://github.com/mehwish-tabbassum"
   },
   {
-    id: "mem-l10",
+    id: "mem-ppt-14",
     name: "Arya Nagraj",
     role: "Tech. Operational Head",
-    category: "3",
+    category: "1",
     domain: "all",
     imageUrl: "aarya.jpg",
     linkedinUrl: "https://www.linkedin.com/in/arya-nagraj",
     githubUrl: "https://github.com/arya-nagraj"
   },
   {
-    id: "mem-l11",
+    id: "mem-ppt-15",
     name: "Khushi Nanekar",
     role: "Social Media Head",
-    category: "3",
+    category: "1",
     domain: "all",
     imageUrl: "khushi.jpg",
     linkedinUrl: "https://www.linkedin.com/in/khushi-nanekar",
     githubUrl: "https://github.com/khushi-nanekar"
   },
   {
-    id: "mem-l12",
+    id: "mem-ppt-16",
     name: "Prakruti Pipaliya",
     role: "Tech. Mgmt. Head",
-    category: "3",
+    category: "1",
     domain: "web",
     imageUrl: "Prakruti.jpg",
     linkedinUrl: "https://www.linkedin.com/in/prakruti-pipaliya",
     githubUrl: "https://github.com/prakruti-pipaliya"
   },
 
-  // ─── CATEGORY 4: Technical Members ─────────────────────────────
+  // ─── CATEGORY 2: TECHNICAL MEMBERS (Remaining Students) ────────────────
   {
-    id: "mem-m1",
+    id: "mem-tech-1",
     name: "Harsh Jain",
     role: "Senior Technical Member",
-    category: "4",
+    category: "2",
     domain: "all",
     imageUrl: "HarshJ.jpg",
     linkedinUrl: "https://www.linkedin.com/in/harsh-jain",
     githubUrl: "https://github.com/harsh-jain"
   },
   {
-    id: "mem-m2",
+    id: "mem-tech-2",
     name: "Gaurav Kandalkar",
     role: "Senior Technical Member",
-    category: "4",
+    category: "2",
     domain: "all",
     imageUrl: "Gaurav.jpg",
     linkedinUrl: "https://www.linkedin.com/in/gaurav-kandalkar",
     githubUrl: "https://github.com/gaurav-kandalkar"
   },
   {
-    id: "mem-m3",
+    id: "mem-tech-3",
     name: "Sadiq Rangwala",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "all",
     imageUrl: "Sadiq.jpg",
     linkedinUrl: "https://www.linkedin.com/in/sadiq-rangwala",
     githubUrl: "https://github.com/sadiq-rangwala"
   },
   {
-    id: "mem-m4",
+    id: "mem-tech-4",
     name: "Shravani Kasar",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "all",
     imageUrl: "Shravani.jpg",
     linkedinUrl: "https://www.linkedin.com/in/shravani-kasar",
     githubUrl: "https://github.com/shravani-kasar"
   },
   {
-    id: "mem-m5",
+    id: "mem-tech-5",
+    name: "Swayam Dhawade",
+    role: "Robotics & IoT Member",
+    category: "2",
+    domain: "iot",
+    imageUrl: "sawayam.jpg",
+    linkedinUrl: "https://www.linkedin.com/in/swayam-dhawade",
+    githubUrl: "https://github.com/swayam-dhawade"
+  },
+  {
+    id: "mem-tech-6",
     name: "Palak Thakur",
     role: "Robotics & IoT Member",
-    category: "4",
+    category: "2",
     domain: "iot",
     imageUrl: "Pakak.jpg",
     linkedinUrl: "https://www.linkedin.com/in/palak-thakur",
     githubUrl: "https://github.com/palak-thakur"
   },
   {
-    id: "mem-m6",
+    id: "mem-tech-7",
     name: "Harsh Jaiswal",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "aiml",
     imageUrl: "harsh.jpg",
     linkedinUrl: "https://www.linkedin.com/in/harsh-jaiswal",
     githubUrl: "https://github.com/harsh-jaiswal"
   },
   {
-    id: "mem-m7",
+    id: "mem-tech-8",
     name: "Aahana",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "web",
     imageUrl: "aahana.jpg",
-    linkedinUrl: "https://www.linkedin.com/in/aahana",
-    githubUrl: "https://github.com/aahana"
+    linkedinUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "mem-m8",
+    id: "mem-tech-9",
     name: "Esha",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "web",
     imageUrl: "esha.jpg",
-    linkedinUrl: "https://www.linkedin.com/in/esha",
-    githubUrl: "https://github.com/esha"
+    linkedinUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "mem-m9",
+    id: "mem-tech-10",
     name: "Fatema",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "aiml",
     imageUrl: "fatema.jpg",
-    linkedinUrl: "https://www.linkedin.com/in/fatema",
-    githubUrl: "https://github.com/fatema"
+    linkedinUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "mem-m10",
+    id: "mem-tech-11",
     name: "Suyash",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "iot",
     imageUrl: "suyash.jpg",
-    linkedinUrl: "https://www.linkedin.com/in/suyash",
-    githubUrl: "https://github.com/suyash"
+    linkedinUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "mem-m11",
+    id: "mem-tech-12",
+    name: "Yash Bhilare",
+    role: "Technical Member",
+    category: "2",
+    domain: "iot",
+    imageUrl: "yash.jpg",
+    linkedinUrl: "https://www.linkedin.com/in/yash-bhilare",
+    githubUrl: "https://github.com/yash-bhilare"
+  },
+  {
+    id: "mem-tech-13",
     name: "Vaishnavi",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "web",
     imageUrl: "vaishnavi.jpg",
-    linkedinUrl: "https://www.linkedin.com/in/vaishnavi",
-    githubUrl: "https://github.com/vaishnavi"
+    linkedinUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "mem-m12",
+    id: "mem-tech-14",
     name: "Dhanali",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "research",
     imageUrl: "dhanali.jpg",
-    linkedinUrl: "https://www.linkedin.com/in/dhanali",
-    githubUrl: "https://github.com/dhanali"
+    linkedinUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "mem-m13",
+    id: "mem-tech-15",
     name: "Nitiraj",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "aiml",
     imageUrl: "nitiraj.jpeg",
-    linkedinUrl: "https://www.linkedin.com/in/nitiraj",
-    githubUrl: "https://github.com/nitiraj"
+    linkedinUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "mem-m14",
+    id: "mem-tech-16",
     name: "Nishanth",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "iot",
     imageUrl: "nishanth.jpg",
-    linkedinUrl: "https://www.linkedin.com/in/nishanth",
-    githubUrl: "https://github.com/nishanth"
+    linkedinUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "mem-m15",
+    id: "mem-tech-17",
     name: "Shivansh",
     role: "Technical Member",
-    category: "4",
+    category: "2",
     domain: "cybersec",
     imageUrl: "shivansh.jpg",
-    linkedinUrl: "https://www.linkedin.com/in/shivansh",
-    githubUrl: "https://github.com/shivansh"
+    linkedinUrl: "#",
+    githubUrl: "#"
   }
 ];
 
@@ -1364,6 +1380,56 @@ async function renderEventsOnHome() {
   cardsContainer.innerHTML = html;
 }
 
+// Fetch Members
+async function getMembers() {
+  let members = [];
+  if (typeof firebase !== 'undefined' && typeof db !== 'undefined' && db && !isDemoModeActive()) {
+    try {
+      const snapshot = await db.collection("members").get();
+      snapshot.forEach(doc => {
+        members.push({ id: doc.id, ...doc.data() });
+      });
+      if (members.length >= INITIAL_MEMBERS_DATA.length) return members;
+
+      // Auto-seed members to Firestore if empty or outdated
+      console.log("🔥 Auto-seeding updated PPT & Technical members into Firebase DB...");
+      for (const m of INITIAL_MEMBERS_DATA) {
+        db.collection("members").doc(m.id).set(m, { merge: true }).catch(err => console.warn("Member seed error:", err));
+      }
+      return [...INITIAL_MEMBERS_DATA];
+    } catch(e) {
+      console.warn("Firestore fetch error for members, falling back to LocalStorage:", e);
+    }
+  }
+
+  const stored = localStorage.getItem("astra_members");
+  if (stored) {
+    try {
+      members = JSON.parse(stored);
+      // Auto-refresh cache if roster structure changed
+      if (members.length < INITIAL_MEMBERS_DATA.length || !members.some(m => m.id && m.id.includes("mem-ppt-"))) {
+        members = [...INITIAL_MEMBERS_DATA];
+        localStorage.setItem("astra_members", JSON.stringify(members));
+      }
+    } catch(e) {
+      members = [...INITIAL_MEMBERS_DATA];
+      localStorage.setItem("astra_members", JSON.stringify(members));
+    }
+  } else {
+    members = [...INITIAL_MEMBERS_DATA];
+    localStorage.setItem("astra_members", JSON.stringify(members));
+  }
+  return members;
+}
+
+// Initialize Dynamic Views on Page Load
+document.addEventListener("DOMContentLoaded", () => {
+  renderProjectsHubPage();
+  renderProjectDomainPage();
+  renderEventsOnHome();
+  renderMembersPage();
+});
+
 // Render Members Page Dynamically — Real roster with photos & SVG icons
 async function renderMembersPage() {
   const container = document.getElementById("dynamic-members-main");
@@ -1375,16 +1441,14 @@ async function renderMembersPage() {
   const GITHUB_SVG   = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;fill:currentColor;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.332-1.756-1.332-1.756-1.09-.744.083-.73.083-.73 1.205.085 1.838 1.238 1.838 1.238 1.07 1.834 2.809 1.306 3.492.998.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.52.125-3.174 0 0 1.005-.322 3.301 1.23.956-.266 1.96-.399 2.96-.399s1.004.133 2.96.399c2.296-1.552 3.3-1.23 3.3-1.23.665 1.654.26 2.871.125 3.174.77.84 1.235 1.91 1.235 3.22 0 4.61-2.807 5.625-5.474 5.923.43.37.81 1.096.81 2.213 0 1.604-.015 2.89-.015 3.284 0 .319.21.694.825.575C20.565 22.102 24 17.59 24 12.297c0-6.627-5.373-12-12-12z"/></svg>`;
 
   const categories = {
-    "1": { title: "Faculty Coordinators & Mentors", items: [] },
-    "2": { title: "Core Executive Leadership",       items: [] },
-    "3": { title: "Technical Domain Leads",          items: [] },
-    "4": { title: "Technical Members",               items: [] }
+    "1": { title: "MEET OUR TEAM", items: [] },
+    "2": { title: "TECHNICAL MEMBERS", items: [] }
   };
 
   members.forEach(m => {
-    const cat = m.category || "4";
+    const cat = m.category || "2";
     if (categories[cat]) categories[cat].items.push(m);
-    else categories["4"].items.push(m);
+    else categories["2"].items.push(m);
   });
 
   let html = `<style>
@@ -1472,13 +1536,14 @@ async function renderMembersPage() {
     `;
 
     group.items.forEach(m => {
-      const linkedinLink = (m.linkedinUrl && m.linkedinUrl !== "#")
-        ? `<a href="${m.linkedinUrl}" target="_blank" class="mem-social-icon" aria-label="LinkedIn">${LINKEDIN_SVG}</a>` : "";
-      const githubLink = (m.githubUrl && m.githubUrl !== "#")
-        ? `<a href="${m.githubUrl}" target="_blank" class="mem-social-icon" aria-label="GitHub">${GITHUB_SVG}</a>` : "";
+      const linkedinUrl = (m.linkedinUrl && m.linkedinUrl.trim() !== "" && m.linkedinUrl !== "#") ? m.linkedinUrl : "#";
+      const githubUrl = (m.githubUrl && m.githubUrl.trim() !== "" && m.githubUrl !== "#") ? m.githubUrl : "#";
+
+      const linkedinLink = `<a href="${linkedinUrl}" target="_blank" class="mem-social-icon" aria-label="LinkedIn" title="LinkedIn Profile">${LINKEDIN_SVG}</a>`;
+      const githubLink = `<a href="${githubUrl}" target="_blank" class="mem-social-icon" aria-label="GitHub" title="GitHub Profile">${GITHUB_SVG}</a>`;
 
       const photoBlock = (m.imageUrl && m.imageUrl.trim() !== "")
-        ? `<img src="${m.imageUrl}" alt="${m.name}" />`
+        ? `<img src="${m.imageUrl}" alt="${m.name}" onerror="this.onerror=null; this.src='a.jpg';" />`
         : `<div class="mem-no-photo">👤</div>`;
 
       html += `
@@ -1499,4 +1564,3 @@ async function renderMembersPage() {
 
   container.innerHTML = html;
 }
-
