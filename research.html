@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A.S.T.R.A | Research & Innovation</title>
+    <!-- Using Orbitron for a futuristic look and Poppins for readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* New Color Variables for a consistent scheme */
+        :root {
+            --primary-red: #FF4500; /* A vibrant red */
+            --dark-red: #8B0000;   /* A dark red */
+            --deep-black: #000000;
+            --bg-dark: #000000;
+            --bg-medium: #111111;
+            --text-color: #cccccc;
+            --glow-color: #FF6347; /* A bright, glowing red */
+            --gradient-start: #110000;
+            --gradient-end: #000000;
+        }
+
+        /* Global styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        /* Interactive Logo Animation Background Canvas */
+        #logo-animation-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            background: #000000; /* True black background */
+            pointer-events: none; /* Do not block interaction with the content */
+        }
+
+        /* Top Nav Bar - centralized layout */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 20px 20px;
+            padding: 1.2rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--dark-red);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-in-out;
+            transition: all 0.3s ease;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            height: 80px;
+            filter: drop-shadow(0 0 5px var(--glow-color));
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--text-color);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a, .nav-btn {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-btn:hover {
+            color: var(--primary-red);
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+        .nav-btn {
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+        }
+
+        /* Hamburger menu and sidebar for mobile */
+        .hamburger { display: none; }
+        .sidebar { display: none; }
+
+        /* Hero Section - added a subtle background to make text pop more */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
+            animation: neonGlow 2s infinite alternate;
+        }
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: white;
+            letter-spacing: 0.1em;
+            margin-top: 1rem;
+        }
+
+       /* Main Content Wrapper for layout change */
+        .main-content {
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Cards - new, cleaner layout */
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .card {
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.7), rgba(0, 0, 0, 0.7));
+            border: 2px solid rgba(255, 69, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 15px 30px rgba(0, 0, 0, 0.6);
+            border-color: var(--primary-red);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            filter: grayscale(80%);
+            transition: filter 0.4s ease;
+        }
+        .card:hover img { filter: grayscale(0%); }
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        .card p { font-size: 0.9rem; }
+        
+        /* New Domains Section */
+        #domains-section {
+            padding: 4rem 0;
+        }
+        .domain-card {
+            background: linear-gradient(135deg, rgba(30, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+            border: 2px solid rgba(255, 69, 0, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+        .domain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        .domain-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, var(--bg-dark), var(--deep-black));
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-color);
+            font-weight: 300;
+            font-size: 0.9rem;
+            border-top: 2px solid var(--dark-red);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+        @keyframes neonGlow {
+            0% { text-shadow: 0 0 10px var(--primary-red), 0 0 20px var(--primary-red); }
+            100% { text-shadow: 0 0 20px var(--primary-red), 0 0 30px var(--primary-red), 0 0 40px var(--primary-red); }
+        }
+
+        /* Custom styles for this page */
+        .domain-header-section {
+            text-align: center;
+            margin-bottom: 2.4rem;
+            padding-top: 8rem;
+        }
+        .domain-header {
+            font-family: 'sans-serif';
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: white;
+            margin: 0;
+            text-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+        }
+        .domain-tagline {
+            font-family: 'Poppins', sans-serif;
+            color: rgb(234, 190, 133);
+            font-size: 1.2rem;
+            font-weight: 500;
+            font-style: italic;
+            line-height: 1.45;
+            max-width: 920px;
+            margin: 2.1rem auto 0 auto;
+            user-select: text;
+        }
+        .research-box {
+            background-color: rgba(17, 17, 17, 0.7);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 69, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+        .research-box h2 {
+            font-family: 'sans-serif';
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+            border-left: 4px solid var(--primary-red);
+            padding-left: 1rem;
+        }
+        .intro, .desc {
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+        .image-gallery {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .image-gallery img {
+            width: 300px; height: 200px; object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+            transition: transform 0.3s;
+            border: 2px solid rgba(255, 69, 0, 0.3);
+        }
+        .image-gallery img:hover { transform: scale(1.05);}
+        .research-focus {
+            background-color: rgba(17, 17, 17, 0.7);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 69, 0, 0.3);
+            margin-top: 2rem;
+        }
+        .research-focus h2 {
+            font-family: 'sans-serif';
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: white;
+            border-left: 4px solid var(--primary-red);
+            padding-left: 1rem;
+        }
+        .research-focus ul {
+            margin-top: 1rem; padding-left: 1.5rem;
+        }
+        .research-focus li {
+            margin-bottom: 0.8rem; line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+        @keyframes neonGlow {
+            0% { text-shadow: 0 0 10px var(--primary-red), 0 0 20px var(--primary-red); }
+            100% { text-shadow: 0 0 20px var(--primary-red), 0 0 30px var(--primary-red), 0 0 40px var(--primary-red); }
+        }
+
+        /* Media Queries for responsiveness */
+        @media screen and (max-width: 768px) {
+            .top-nav {
+                width: 100%;
+                border-radius: 0;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .nav-links { display: none; }
+            .nav-btn { display: block; margin-top: 1rem; }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            .section-header { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="logo-animation-bg"></canvas>
+
+    <nav class="top-nav">
+        <div class="logo-section">
+            <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+            <span class="title">A.S.T.R.A</span>
+        </div>
+        <div class="nav-links">
+            <!-- Updated hrefs to navigate back to index.html -->
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about-section">Blogs</a>
+            <a href="index.html#events-section">Events</a>
+            <a href="index.html#domains-section">Domains</a>
+            <a href="projects.html">Projects</a>
+            <a href="members.html">Members</a>
+        </div>
+        <button class="nav-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform', '_blank')">Join Us</button>
+    </nav>
+
+    <main class="main-content">
+        <!-- Domain header + tagline (This is the main content of the research page) -->
+        <header class="domain-header-section" id="domains-section" role="region" aria-label="Research domain header"> <br> <br>
+            <h2 class="domain-header">Research & Innovation</h2>
+            <p class="domain-tagline">
+                “Empowering curiosity and creativity to spark breakthrough technologies and interdisciplinary solutions.”
+            </p>
+        </header>
+        <section class="research-box">
+            <p class="intro">
+                Innovation is at the core of A.S.T.R.A. We believe in empowering students to explore, create, and build technologies that can impact the world.
+            </p>
+            <div class="image-gallery">
+                <!-- Using placeholder images to match the new color scheme -->
+                <img src="image3.jpg" alt="Innovation Event">
+                <img src="research.jpg" alt="Student Demo">
+                <img src="r2.webp" alt="Innovation Showcase">
+            </div>
+            <p class="desc">
+                Our initiatives focus on hands-on learning, innovation challenges, and interdisciplinary collaboration to fuel breakthrough ideas.
+            </p>
+        </section>
+        <section class="research-focus">
+            <h2>Our Research Focus</h2>
+            <p>We actively promote impactful, interdisciplinary research across these domains:</p>
+            <ul>
+                <li><strong>Computational Research:</strong> Advancing machine learning, algorithms, and software engineering practices.</li>
+                <li><strong>Hardware Innovation:</strong> Building IoT systems, robotics, and embedded solutions for real-world use.</li>
+                <li><strong>Environmental & Sustainable Tech:</strong> Researching eco-friendly materials and clean energy solutions.</li>
+                <li><strong>Social Impact:</strong> Technology applied to education, healthcare, and rural development challenges.</li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer>
+        &copy; 2025 A.S.T.R.A | AI-driven Systems for Technological Research and Advancement | All Rights Reserved
+    </footer>
+
+    <!-- Scripts for the new logo animation background -->
+    <script>
+        const canvas = document.getElementById('logo-animation-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        let animationFrameId;
+        let startTime = null;
+        let pathLotus, pathArrow;
+        let pathLotusLength, pathArrowLength;
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        function createPaths() {
+            pathLotus = new Path2D();
+            pathLotus.moveTo(0, -60);
+            pathLotus.lineTo(-15, -45);
+            pathLotus.lineTo(-15, -15);
+            pathLotus.lineTo(0, 0);
+            pathLotus.lineTo(15, -15);
+            pathLotus.lineTo(15, -45);
+            pathLotus.lineTo(0, -60);
+            pathLotus.moveTo(0, -50);
+            pathLotus.lineTo(-40, -40);
+            pathLotus.lineTo(-50, -10);
+            pathLotus.lineTo(-50, 0);
+            pathLotus.lineTo(0, -25);
+            pathLotus.lineTo(-50, -10);
+            pathLotus.moveTo(0, -50);
+            pathLotus.lineTo(40, -40);
+            pathLotus.lineTo(50, -10);
+            pathLotus.lineTo(50, 0);
+            pathLotus.lineTo(0, -25);
+            pathLotus.lineTo(50, -10);
+            pathLotus.moveTo(-40, -10);
+            pathLotus.lineTo(-70, 0);
+            pathLotus.lineTo(-60, 30);
+            pathLotus.lineTo(0, 40);
+            pathLotus.moveTo(40, -10);
+            pathLotus.lineTo(70, 0);
+            pathLotus.lineTo(60, 30);
+            pathLotus.lineTo(0, 40);
+            pathLotus.moveTo(0, 40);
+            pathLotus.lineTo(5, 50);
+            pathLotus.lineTo(-5, 60);
+            pathLotus.lineTo(0, 70);
+
+            pathArrow = new Path2D();
+            pathArrow.moveTo(-100, 0);
+            pathArrow.lineTo(100, 0);
+            pathArrow.moveTo(-100, 0);
+            pathArrow.lineTo(-120, -5);
+            pathArrow.lineTo(-115, 0);
+            pathArrow.lineTo(-120, 5);
+            pathArrow.lineTo(-100, 0);
+            pathArrow.moveTo(-105, 0);
+            pathArrow.lineTo(-125, -5);
+            pathArrow.lineTo(-120, 0);
+            pathArrow.lineTo(-125, 5);
+            pathArrow.lineTo(-105, 0);
+            pathArrow.moveTo(100, 0);
+            pathArrow.lineTo(130, -5);
+            pathArrow.lineTo(130, 5);
+            pathArrow.lineTo(100, 0);
+        }
+
+        function calculatePathLength(path) {
+            let length = 0;
+            const points = [];
+            return 2500;
+        }
+
+        function draw(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const totalDuration = 5000;
+
+            ctx.clearRect(0, 0, width, height);
+            
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            const scale = Math.min(width, height) / 800;
+            ctx.scale(scale, scale);
+
+            const lotusProgress = Math.min(1, elapsed / 3000);
+            if (lotusProgress > 0) {
+                ctx.strokeStyle = 'var(--text-color)';
+                ctx.lineWidth = 2;
+                ctx.shadowColor = 'var(--glow-color)';
+                ctx.shadowBlur = 10;
+                
+                ctx.setLineDash([pathLotusLength, pathLotusLength]);
+                ctx.lineDashOffset = pathLotusLength * (1 - lotusProgress);
+                ctx.stroke(pathLotus);
+            }
+
+            const arrowDelay = 2000;
+            const arrowProgress = Math.min(1, (elapsed - arrowDelay) / (totalDuration - arrowDelay));
+            if (arrowProgress > 0) {
+                ctx.strokeStyle = 'var(--primary-red)';
+                ctx.lineWidth = 2;
+                ctx.shadowColor = 'var(--glow-color)';
+                ctx.shadowBlur = 10;
+                
+                ctx.setLineDash([pathArrowLength, pathArrowLength]);
+                ctx.lineDashOffset = pathArrowLength * (1 - arrowProgress);
+                ctx.stroke(pathArrow);
+            }
+
+            ctx.restore();
+
+            if (elapsed < totalDuration) {
+                animationFrameId = requestAnimationFrame(draw);
+            } else {
+                drawFinalLogo();
+            }
+        }
+        
+        function drawFinalLogo() {
+             ctx.clearRect(0, 0, width, height);
+             ctx.save();
+             ctx.translate(width / 2, height / 2);
+             const scale = Math.min(width, height) / 800;
+             ctx.scale(scale, scale);
+
+             ctx.strokeStyle = 'var(--text-color)';
+             ctx.lineWidth = 2;
+             ctx.shadowColor = 'var(--glow-color)';
+             ctx.shadowBlur = 10;
+             ctx.setLineDash([]); // Reset line dash
+             ctx.stroke(pathLotus);
+             
+             ctx.strokeStyle = 'var(--primary-red)';
+             ctx.lineWidth = 2;
+             ctx.shadowColor = 'var(--glow-color)';
+             ctx.shadowBlur = 10;
+             ctx.stroke(pathArrow);
+             
+             ctx.restore();
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            startTime = null;
+            animationFrameId = requestAnimationFrame(draw);
+        });
+
+        window.onload = function() {
+            resizeCanvas();
+            createPaths();
+            pathLotusLength = 1500;
+            pathArrowLength = 1000;
+            animationFrameId = requestAnimationFrame(draw);
+        };
+    </script>
+
+  <!-- Firebase & A.S.T.RA Core Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/public-dynamic.js"></script>
+</body>
+</html>

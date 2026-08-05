@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A.S.T.R.A | IoT & Robotics</title>
+    <!-- Using Orbitron for a futuristic look and Poppins for readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* New Color Variables for a consistent scheme */
+        :root {
+            --primary-red: #FF6347; /* A vibrant, softer red */
+            --dark-red: #B22222;    /* A dark, earthy red */
+            --deep-black: #000000;
+            --bg-dark: #0A0A0A;
+            --bg-medium: #151515;
+            --text-color: #E0E0E0;
+            --glow-color: #FF7F50; /* A soft coral glow */
+        }
+
+        /* Global styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Top Nav Bar - centralized layout */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 20px 20px;
+            padding: 1.2rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--dark-red);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-in-out;
+            transition: all 0.3s ease;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            height: 80px;
+            filter: drop-shadow(0 0 5px var(--glow-color));
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-color);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a, .nav-btn {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-btn:hover {
+            color: var(--primary-red);
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+        .nav-btn {
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 0 15px rgba(255, 99, 71, 0.6);
+            animation: neonGlow 2s infinite alternate;
+        }
+       .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--primary-red);
+            letter-spacing: 0.1em;
+            margin-top: 1rem;
+        }
+
+        /* Main Content Wrapper for layout change */
+        .main-content {
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+        }
+
+        /* --- Styling for Content Sections --- */
+        .domain-intro {
+            color: rgb(234, 190, 133);
+            text-align: center;
+            max-width: 800px;
+            margin: 2rem auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            border-left: 2px solid var(--primary-red);
+            padding-left: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .domain-intro:hover {
+            border-left: 4px solid var(--primary-red);
+            transform: scale(1.02);
+        }
+
+        /* Grid for key areas */
+        .key-areas-grid {
+            display: grid;
+            grid-template-columns: 2fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .area-card {
+            background: linear-gradient(135deg, rgba(30, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+            border: 1px solid rgba(255, 99, 71, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .area-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-red);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+        .area-card h3 {
+            font-family: 'sans-serif';
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+        .area-card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .area-card img {
+            width: 100%;
+            height: 150px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: filter 0.4s ease;
+        }
+
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, var(--bg-dark), var(--deep-black));
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-color);
+            font-weight: 300;
+            font-size: 0.9rem;
+            border-top: 2px solid var(--dark-red);
+            margin-top: 4rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+        @keyframes neonGlow {
+            0% { text-shadow: 0 0 10px var(--primary-red), 0 0 20px var(--primary-red); }
+            100% { text-shadow: 0 0 20px var(--primary-red), 0 0 30px var(--primary-red), 0 0 40px var(--primary-red); }
+        }
+
+        /* Media Queries for responsiveness */
+        @media screen and (max-width: 768px) {
+            .top-nav {
+                width: 100%;
+                border-radius: 0;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .nav-links { display: none; }
+            .nav-btn { display: block; margin-top: 1rem; }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            .section-header { font-size: 2rem; }
+            .domain-intro { padding-left: 1rem; }
+            .key-areas-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div class="logo-section">
+            <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+            <span class="title">A.S.T.R.A</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about-section">Blogs</a>
+            <a href="index.html#events-section">Events</a>
+            <a href="index.html#domains-section" class="active">Domains</a>
+            <a href="projects.html">Projects</a>
+            <a href="members.html">Members</a>
+        </div>
+        <button class="nav-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform', '_blank')">Join Us</button>
+    </nav>
+
+    <main class="main-content">
+        <!-- Domain header + tagline -->
+        <header class="domain-header-section" id="iot-robotics-section" role="region" aria-label="IoT and Robotics domain header"> <br> <br>
+            <br>
+            <h2 class="section-header">IoT & Robotics</h2>
+            <p class="domain-intro">
+                "We are the architects of the automated future. The IoT & Robotics domain is where we bring code to life, building intelligent machines and interconnected systems that interact with the physical world."
+            </p>
+        </header>
+
+        <!-- Key Areas Section -->
+        <section class="key-areas-grid">
+            <div class="area-card">
+                <h3>ESP32</h3>
+                <p>The ESP32 is a low-cost, low-power system on a chip (SoC) microcontroller with integrated Wi-Fi and dual-mode Bluetooth. We use it for building powerful and connected IoT devices and systems.</p>
+            </div>
+            <div class="area-card">
+                <h3>Arduino</h3>
+                <p>Arduino is an open-source electronics platform based on easy-to-use hardware and software. It is perfect for beginners and is used for building a wide range of interactive projects and prototypes.</p>
+            </div>
+        </section>
+    </main>
+    </section>
+
+    <footer>
+        &copy; 2025 A.S.T.R.A | AI-driven Systems for Technological Research and Advancement | All Rights Reserved
+    </footer>
+
+
+  <!-- Firebase & A.S.T.RA Core Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/public-dynamic.js"></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A.S.T.R.A | Members</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js library for 3D background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --primary-red: #FF4500;
+            --dark-red: #8B0000;
+            --deep-black: #000000;
+            --bg-dark: #000000;
+            --bg-medium: #111111;
+            --text-color: #cccccc;
+            --glow-color: #FF6347;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Fullscreen Canvas for Three.js animation */
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: -2;
+            opacity: 0.18;
+            pointer-events: none;
+        }
+
+        /* Top Nav Bar */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 20px 20px;
+            padding: 1.2rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--dark-red);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-in-out;
+            transition: all 0.3s ease;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            height: 70px;
+            filter: drop-shadow(0 0 5px var(--glow-color));
+            cursor: pointer;
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-color);
+            letter-spacing: 0.05em;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a, .nav-btn {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-btn:hover {
+            color: var(--primary-red);
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+        .nav-btn {
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+        }
+
+        .main-content {
+            padding: 120px 1.5rem 4rem;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 0.6rem;
+            text-shadow: 0 0 15px rgba(255, 69, 0, 0.5);
+        }
+
+        .section-divider {
+            width: 120px;
+            margin: 0 auto 2.5rem auto;
+            border: none;
+            height: 3px;
+            background: linear-gradient(90deg, #8B0000, #FF4500);
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, var(--bg-dark), var(--deep-black));
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-color);
+            font-weight: 300;
+            font-size: 0.9rem;
+            border-top: 2px solid var(--dark-red);
+            margin-top: auto;
+        }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+    </style>
+</head>
+<body>
+    <!-- Three.js particle canvas -->
+    <canvas id="three-canvas"></canvas>
+
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav">
+        <div class="logo-section" onclick="window.location.href='index.html'">
+            <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+            <span class="title">A.S.T.R.A</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about-section">Blogs</a>
+            <a href="index.html#events-section">Events</a>
+            <a href="index.html#domains-section">Domains</a>
+            <a href="projects.html">Projects</a>   
+            <a href="members.html" class="active">Members</a>
+        </div>
+        <button class="nav-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform', '_blank')">Join Us</button>
+    </nav>
+
+    <div class="main-content">
+        <h1 class="section-header">MEMBERS DIRECTORY</h1>
+        <hr class="section-divider" />
+
+        <main role="main" tabindex="-1" id="dynamic-members-main">
+            <div style="text-align: center; padding: 50px;">
+                <p id="members-loading-text" style="font-size: 1.1rem; color: #ff7060;">Loading members from Firebase Database...</p>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        &copy; 2025 A.S.T.R.A | Abhivruddhi in Strategic Technological Research and Advancement | Department of Engineering Sciences
+    </footer>
+
+    <!-- Three.js Canvas Script -->
+    <script>
+        let scene, camera, renderer, particleSystem;
+
+        function initThreeJS() {
+            const canvas = document.getElementById('three-canvas');
+            if (!canvas) return;
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            const particleCount = 1800;
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 10;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+
+                colors[i * 3] = (Math.random() * 0.5) + 0.5;
+                colors[i * 3 + 1] = Math.random() * 0.1;
+                colors[i * 3 + 2] = Math.random() * 0.1;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.04,
+                vertexColors: true,
+                transparent: true,
+                blending: THREE.AdditiveBlending
+            });
+
+            particleSystem = new THREE.Points(geometry, material);
+            scene.add(particleSystem);
+            camera.position.z = 5;
+
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function onWindowResize() {
+            if (!camera || !renderer) return;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animateThreeJS() {
+            requestAnimationFrame(animateThreeJS);
+            if (particleSystem) {
+                particleSystem.rotation.x += 0.0004;
+                particleSystem.rotation.y += 0.0006;
+            }
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+
+        window.onload = function() {
+            initThreeJS();
+            animateThreeJS();
+        };
+    </script>
+
+    <!-- Firebase & A.S.T.R.A Core Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/public-dynamic.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+Start seeding...
+Roles seeded.
+Domains seeded.
+PrismaClientValidationError: 
+Invalid `prisma.member.upsert()` invocation in
+C:\Users\Manjiri\Desktop\frontend\backend\prisma\seed.js:132:25
+
+  129 ];
+  130 
+  131 for (const memberData of members) {
+ΓåÆ 132   await prisma.member.upsert({
+          where: {
+            personalEmail: "namash@astrademo.com",
+            ~~~~~~~~~~~~~
+        ?   id?: String,
+        ?   email?: String,
+        ?   AND?: MemberWhereInput | MemberWhereInput[],
+        ?   OR?: MemberWhereInput[],
+        ?   NOT?: MemberWhereInput | MemberWhereInput[],
+        ?   firstName?: StringFilter | String,
+        ?   lastName?: StringFilter | String,
+        ?   phoneNumber?: StringNullableFilter | String | Null,
+        ?   roleId?: StringFilter | String,
+        ?   primaryDomainId?: StringNullableFilter | String | Null,
+        ?   linkedinUrl?: StringNullableFilter | String | Null,
+        ?   githubUrl?: StringNullableFilter | String | Null,
+        ?   profileImageUrl?: StringNullableFilter | String | Null,
+        ?   joinDate?: DateTimeNullableFilter | DateTime | Null,
+        ?   status?: StringFilter | String,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   role?: RoleRelationFilter | RoleWhereInput,
+        ?   primaryDomain?: DomainNullableRelationFilter | DomainWhereInput | Null,
+        ?   projects?: ProjectMemberListRelationFilter,
+        ?   blogs?: BlogListRelationFilter,
+        ?   mediaAssets?: MediaAssetListRelationFilter
+          },
+          update: {},
+          create: {
+            firstName: "Namash",
+            lastName: "Kate",
+            personalEmail: "namash@astrademo.com",
+            roleId: "e0ff8c5c-9ba4-4f2a-a9d9-899c29771919",
+            primaryDomainId: "5b2b1544-728a-4ef3-855f-8bb062c9790d",
+            linkedinUrl: "#",
+            githubUrl: "#",
+            profileImageUrl: "namash.jpg",
+            status: "active"
+          }
+        })
+
+Unknown argument `personalEmail`. Available options are marked with ?.
+    at wn (C:\Users\Manjiri\Desktop\frontend\backend\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at $n.handleRequestError (C:\Users\Manjiri\Desktop\frontend\backend\node_modules\@prisma\client\runtime\library.js:121:6958)
+    at $n.handleAndLogRequestError (C:\Users\Manjiri\Desktop\frontend\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Manjiri\Desktop\frontend\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (C:\Users\Manjiri\Desktop\frontend\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async main (C:\Users\Manjiri\Desktop\frontend\backend\prisma\seed.js:132:5) {
+  clientVersion: '5.22.0'
+}

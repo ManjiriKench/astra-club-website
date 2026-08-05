@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A.S.T.R.A | Full Stack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0a0a0a 30%, #381212 50%, #200202 100%);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .hamburger {
+      position: fixed; top: 20px; left: 20px; z-index: 1001;
+      cursor: pointer; display: flex; flex-direction: column; gap: 5px;
+    }
+    .hamburger div { width: 30px; height: 3px; background: white; border-radius: 2px; transition: 0.3s; }
+    .sidebar {
+      position: fixed; top: 0; left: -260px; height: 100%;
+      width: 260px; background: #1c1c1c;
+      padding: 2rem 1rem; box-shadow: 2px 0 20px rgba(0,0,0,0.6);
+      transition: left 0.4s cubic-bezier(.55,1.6,.43,1.02), opacity 0.25s, visibility 0.25s;
+      z-index: 1000; opacity: 0; visibility: hidden; pointer-events: none;
+    }
+    .sidebar.open { left: 0; opacity: 1; visibility: visible; pointer-events: auto; }
+    .sidebar ul, .sidebar ul li { list-style: none; margin: 0; padding: 0; }
+    .sidebar ul li {
+      margin-bottom: 1rem; color: white; cursor: pointer; transition: 0.3s;
+    }
+    .sidebar ul li:hover { color: #c40000; font-weight: bold; padding-left: 5px; }
+
+    .header { text-align: center; padding: 1.1rem 1rem 0.5rem; animation: fadeInDown 1s; }
+    .logo-section { display: flex; justify-content: center; align-items: center; gap: 1.2rem; margin-bottom: 0.4rem; }
+    .logo { height: 92px; filter: drop-shadow(0 0 5px #c40000); }
+    .title {
+      font-family: 'Sans serif', bold;
+      font-size: 4rem; color: #fff6db;
+      letter-spacing: 0.09em; user-select: none;
+      display: inline-block; transition: color 0.3s; cursor: pointer; position: relative;
+    }
+    .title span { display: inline-block; opacity: 0; }
+    .loaded .title span { opacity: 1 !important; }
+
+    .nav-buttons {
+      display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;
+      margin-top: 0.5rem; margin-bottom: 1.3rem;
+    }
+    .nav-buttons button {
+      background: #c40000; color: white; border: none;
+      padding: 0.6rem 1.5rem; border-radius: 36px; cursor: pointer;
+      font-weight: 700; font-size: 1.1rem; transition: all 0.3s cubic-bezier(.45,1.46,.43,1.02);
+      box-shadow: 0 0 10px rgba(255,0,0,0.3);
+      position: relative; overflow: hidden; z-index: 1; outline: none;
+    }
+    .nav-buttons button:hover, .nav-buttons button:focus {
+      background: #ff1c1c; color: #fff6db;
+      box-shadow: 0 0 20px 2px #ff9d7b77,0 0 0 2px #fff6db33;
+      transform: scale(1.1) translateY(-1.5px);
+    }
+
+    .domain-header {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-align: center;
+      color: #fff9ed;
+      margin: 0 0 2.2rem 0;
+      text-shadow: 0 3px 30px #c4000030;
+    }
+    .domain-tagline {
+      text-align: center;
+      color: #ffd6aa;
+      font-size: 1.27rem;
+      font-weight: 500;
+      line-height: 1.5;
+      max-width: 950px;
+      margin: 0 auto 2.6rem auto;
+      padding: 0 1rem;
+    }
+
+    /* CARDS SIDE-BY-SIDE ROW (NOT OVERLAPPING OR STAGGERED) */
+    .fs-card-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: stretch;
+      gap: 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto 3.5rem auto;
+      z-index: 2;
+    }
+    .fs-glass-card {
+      background: rgba(64, 21, 35, 0.96);
+      box-shadow: 0 10px 54px #ffffff5c,0 0 0 5px #c400001e;
+      border-radius: 1.5rem;
+      border: 2.1px solid #f2f1f1;
+      padding: 2.2rem 1.3rem 1.3rem;
+      min-width: 270px;
+      max-width: 380px;
+      width: 100%;
+      position: relative;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: 
+        transform 0.23s cubic-bezier(.33,1.15,.48,1.17), 
+        box-shadow 0.19s cubic-bezier(.45,1.31,.59,1.08),
+        filter 0.18s;
+    }
+    .fs-glass-card:hover {
+      transform: scale(1.045);
+      filter: brightness(1.00) drop-shadow(0 0 9px #fefefe);
+      box-shadow: 0 20px 80px 0 #ff965c59, 0 0 0 8px #ff7a5944;
+      border: 2.1px solid #dbc9bf;
+    }
+    .fs-glass-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 1.1rem;
+      margin-bottom: 1.2rem;
+      background: #222;
+      box-shadow: 0 0 13px #ff965c27;
+      display: block;
+      position: relative;
+    }
+    .fs-glass-label {
+      position: absolute; top: 17px; right: 25px;
+      background: linear-gradient(90deg, #fff2, #ff7a59 71%, #c40000);
+      color: #fff3df;
+      font-weight: 800; font-size: 1.01rem;
+      border-radius: 99px; padding: 0.38rem 1.2rem; letter-spacing: 0.03em;
+      box-shadow: 0 1px 8px #ff7a5944;
+      z-index: 9;
+      filter: drop-shadow(0 0 6px #ffd19a35);
+    }
+    .fs-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffe3d0;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.012em;
+      text-align: center;
+    }
+    .fs-desc {
+      font-size: 1.07rem;
+      color: #ffd3e0;
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .mini-images {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.7rem;
+      margin-top: 0.8rem;
+      margin-bottom: 0.2rem;
+    }
+    .mini-img-box {
+      width: 60px; height: 60px;
+      border-radius: 0.7rem;
+      background: rgba(255,255,255,0.04);
+      box-shadow: 0 2px 6px #c4000025;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      border: 1.5px solid #ff965c70;
+      transition: transform 0.17s;
+    }
+    .mini-img-box img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      display: block;
+    }
+    .mini-img-box:hover { transform: scale(1.13) rotateZ(-7deg); background: #ffd6aa11; }
+    @media (max-width: 1100px) {
+      .fs-card-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
+      .fs-glass-card { max-width: 95vw; }
+    }
+
+    footer {
+      background: #220000;
+      text-align: center;
+      padding: 1.2rem 1rem;
+      color: #ffb18e;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: inset 0 4px 8px #c40000cc;
+      user-select: none; letter-spacing: 0.05em;
+    }
+
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <div class="hamburger" onclick="toggleSidebar()">
+    <div></div><div></div><div></div>
+  </div>
+  <div class="sidebar" id="sidebar"><br> <br><br>
+    <ul>
+      <li onclick="window.location.href='aimlds.html'">AI, ML & DS</li><br>
+      <li onclick="window.location.href='iot.html'">Robotics & IoT</li> <br>
+      <li onclick="window.location.href='web.html'">Full Stack, UI/UX & DevOps</li><br>
+      <li onclick="window.location.href='cybersec.html'">CyberSecurity</li><br>
+      <li onclick="window.location.href='research.html'">Innovation and Research</li><br>
+    </ul>
+  </div>
+  <header class="header">
+    <div class="logo-section">
+      <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+      <h1 class="title">
+        <span>A</span>.<span>S</span>.<span>T</span>.<span>R</span>.<span>A</span>
+      </h1>
+    </div>
+    <nav class="nav-buttons">
+      <button onclick="window.location.href='index.html'">Home</button>
+      <button onclick="window.location.href='index.html#about-section'">About Us</button>
+      <button onclick="window.location.href='members.html'">Members</button>
+      <button onclick="window.location.href='projects.html'">Projects</button>
+    </nav>
+  </header>
+  <main>
+    <div class="domain-header">Full Stack (UI/UX, Front-end and Back-end)</div>
+    <div class="domain-tagline">
+      At our club, we dive into Full Stack Development, which means we build everything from what users see on the screen (frontend) to what runs behind the scenes (backend), including the overall user experience and design.
+    </div>
+    <section class="fs-card-row">
+      <!-- UI/UX Card -->
+      <div class="fs-glass-card">
+        <img src="uiux.jpg" alt="UI/UX Design" class="fs-glass-img"/>
+        <span class="fs-glass-label">UI/UX</span>
+        <div class="fs-title">Design That Delights</div>
+        <div class="fs-desc">
+        We blend creative design, clear layouts, and thoughtful interactions to make every digital product not just look great but feel effortless to use.
+        </div>
+        <div class="mini-images">
+          <div class="mini-img-box"><img src="figma.avif" alt="Figma logo"/></div>
+          <div class="mini-img-box"><img src="visily.png" alt="Adobe XD"/></div>
+          <div class="mini-img-box"><img src="adobe.png" alt="Adobe XD"/></div>
+        </div>
+      </div>
+      <!-- Frontend Card -->
+      <div class="fs-glass-card">
+        <img src="frontend.png" alt="Frontend Development" class="fs-glass-img"/>
+        <span class="fs-glass-label">Front-end</span>
+        <div class="fs-title">Code the Canvas</div>
+        <div class="fs-desc">
+          We transform creative designs into responsive user interfaces that deliver seamless experiences across all devices using HTML, CSS AND JS.
+        </div>
+        <div class="mini-images">
+          <div class="mini-img-box"><img src="html5.png" alt="HTML5 logo"/></div>
+          <div class="mini-img-box"><img src="css.png" alt="CSS3 logo"/></div>
+          <div class="mini-img-box"><img src="js.png" alt="JavaScript"/></div>
+        </div>
+      </div>
+      <!-- Backend Card -->
+      <div class="fs-glass-card">
+        <img src="backend.jpg" alt="Backend Development" class="fs-glass-img"/>
+        <span class="fs-glass-label">Back-end</span>
+        <div class="fs-title">Logic & Databases</div>
+        <div class="fs-desc">
+          Power apps with clean APIs, authentication, real-time sync. We use Flask, Firebase, Python, SQL & more for reliable, scalable systems.
+        </div>
+        <div class="mini-images">
+          <div class="mini-img-box"><img src="python.png" alt="Python"/></div>
+          <div class="mini-img-box"><img src="flask.png" alt="Flask"/></div>
+          <div class="mini-img-box"><img src="mongo.png" alt="MongoDB"/></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 A.S.T.R.A | Full Stack | All Rights Reserved
+  </footer>
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+    }
+    window.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add('loaded');
+      setTimeout(() => {
+        document.querySelectorAll('.title span').forEach(span => {
+          span.style.opacity = '';
+        });
+      }, 600);
+    });
+  </script>
+
+  <!-- Firebase & A.S.T.RA Core Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/public-dynamic.js"></script>
+</body>
+</html>

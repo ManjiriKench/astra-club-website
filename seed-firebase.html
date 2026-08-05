@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A.S.T.R.A | Firebase Database Sync & Seeder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #FF4500;
+            --dark-red: #8B0000;
+            --deep-black: #000000;
+            --bg-dark: #000000;
+            --bg-medium: #111111;
+            --text-color: #cccccc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            padding: 3rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(17, 17, 17, 0.95);
+            border: 1px solid var(--dark-red);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(255, 69, 0, 0.2);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(255, 69, 0, 0.5);
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #aaaaaa;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .status-box {
+            background: #180808;
+            border: 1px solid #8B0000;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .status-row:last-child { border-bottom: none; }
+
+        .badge {
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .badge-success { background: rgba(40, 167, 69, 0.2); color: #28a745; border: 1px solid #28a745; }
+        .badge-warning { background: rgba(255, 193, 7, 0.2); color: #ffc107; border: 1px solid #ffc107; }
+        .badge-danger { background: rgba(220, 53, 69, 0.2); color: #dc3545; border: 1px solid #dc3545; }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #8B0000, #FF4500);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 69, 0, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(40, 40, 40, 0.8);
+            color: #cccccc;
+            border: 1px solid #555;
+        }
+
+        .btn-secondary:hover { background: #555; color: #fff; }
+
+        .btn-danger {
+            background: rgba(139, 0, 0, 0.3);
+            color: #ff6b6b;
+            border: 1px solid #8B0000;
+        }
+
+        .btn-danger:hover { background: #8B0000; color: #fff; }
+
+        .log-box {
+            background: #080808;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 1.2rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #a5d6a7;
+            max-height: 280px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>A.S.T.R.A FIREBASE DATABASE MANAGER</h1>
+        <p class="subtitle">1-Click Firestore Database Synchronization & Seeder Tool</p>
+
+        <div class="status-box">
+            <div class="status-row">
+                <span>Firebase Connection Status:</span>
+                <span id="status-connection" class="badge badge-warning">Checking...</span>
+            </div>
+            <div class="status-row">
+                <span>Projects Collection (`projects`):</span>
+                <span id="status-projects" class="badge badge-warning">Checking...</span>
+            </div>
+            <div class="status-row">
+                <span>Members Collection (`members`):</span>
+                <span id="status-members" class="badge badge-warning">Checking...</span>
+            </div>
+            <div class="status-row">
+                <span>Events Collection (`events`):</span>
+                <span id="status-events" class="badge badge-warning">Checking...</span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="runFirebaseSeed()">🔥 Seed All Data to Firebase DB</button>
+            <button class="btn btn-secondary" onclick="checkFirebaseStatus()">🔄 Refresh Status</button>
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'">🌐 Go to Website</button>
+        </div>
+
+        <h3 style="color:#ffffff; font-size:1rem; margin-bottom:0.6rem;">Console Output:</h3>
+        <div id="log-output" class="log-box">Connecting to Firebase SDK...</div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/public-dynamic.js"></script>
+
+    <script>
+        function log(msg) {
+            const out = document.getElementById("log-output");
+            out.textContent += "\n" + msg;
+            out.scrollTop = out.scrollHeight;
+        }
+
+        async function checkFirebaseStatus() {
+            log("[STATUS CHECK] Querying Firestore database...");
+            const connBadge = document.getElementById("status-connection");
+            const projBadge = document.getElementById("status-projects");
+            const memBadge = document.getElementById("status-members");
+            const evtBadge = document.getElementById("status-events");
+
+            if (typeof firebase === 'undefined' || !db) {
+                connBadge.className = "badge badge-danger";
+                connBadge.innerText = "SDK Error";
+                log("❌ Firebase SDK not connected!");
+                return;
+            }
+
+            connBadge.className = "badge badge-success";
+            connBadge.innerText = "Connected (ProjectId: " + firebaseConfig.projectId + ")";
+
+            try {
+                // Check Projects
+                const projSnap = await db.collection("projects").get();
+                projBadge.className = projSnap.size > 0 ? "badge badge-success" : "badge badge-warning";
+                projBadge.innerText = projSnap.size + " Projects in DB";
+                log("📊 Projects in Firestore: " + projSnap.size);
+
+                // Check Members
+                const memSnap = await db.collection("members").get();
+                memBadge.className = memSnap.size > 0 ? "badge badge-success" : "badge badge-warning";
+                memBadge.innerText = memSnap.size + " Members in DB";
+                log("📊 Members in Firestore: " + memSnap.size);
+
+                // Check Events
+                const evtSnap = await db.collection("events").get();
+                evtBadge.className = evtSnap.size > 0 ? "badge badge-success" : "badge badge-warning";
+                evtBadge.innerText = evtSnap.size + " Events in DB";
+                log("📊 Events in Firestore: " + evtSnap.size);
+
+            } catch (err) {
+                log("⚠️ Firestore Read Error: " + err.message);
+            }
+        }
+
+        async function runFirebaseSeed() {
+            log("\n🚀 Starting 1-Click Firebase Firestore Batch Seeding...");
+            if (typeof firebase === 'undefined' || !db) {
+                log("❌ Cannot seed: Firebase DB not connected.");
+                return;
+            }
+
+            try {
+                // 1. Seed Projects (31 Projects)
+                log("⏳ Seeding 31 Projects into Firestore `projects` collection...");
+                let projCount = 0;
+                for (const p of INITIAL_PROJECTS_DATA) {
+                    await db.collection("projects").doc(p.id).set(p, { merge: true });
+                    projCount++;
+                }
+                log("✅ Successfully seeded " + projCount + " projects to Firestore!");
+
+                // 2. Seed Members (30 Members)
+                log("⏳ Seeding 30 Members into Firestore `members` collection...");
+                let memCount = 0;
+                for (const m of INITIAL_MEMBERS_DATA) {
+                    await db.collection("members").doc(m.id).set(m, { merge: true });
+                    memCount++;
+                }
+                log("✅ Successfully seeded " + memCount + " members to Firestore!");
+
+                // 3. Seed Events (3 Events)
+                log("⏳ Seeding Events into Firestore `events` collection...");
+                const defaultEvents = [
+                    {
+                        id: "evt-1",
+                        title: "Get to know us!",
+                        date: "Induction, 2025",
+                        venue: "VU Auditorium",
+                        imageUrl: "",
+                        registrationUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform"
+                    },
+                    {
+                        id: "evt-2",
+                        title: "Web-Development 2-day bootcamp",
+                        date: "Coming soon",
+                        venue: "To be announced",
+                        imageUrl: "",
+                        registrationUrl: ""
+                    },
+                    {
+                        id: "evt-3",
+                        title: "Research paper writing workshop",
+                        date: "Coming Soon",
+                        venue: "To be announced",
+                        imageUrl: "",
+                        registrationUrl: ""
+                    }
+                ];
+                let evtCount = 0;
+                for (const e of defaultEvents) {
+                    await db.collection("events").doc(e.id).set(e, { merge: true });
+                    evtCount++;
+                }
+                log("✅ Successfully seeded " + evtCount + " events to Firestore!");
+
+                log("\n🎉 FIREBASE DATABASE SEEDING COMPLETED SUCCESSFULLY!");
+                log("All website pages (projects, projectdomain, members, events) will now render directly live from Firebase Firestore!");
+                
+                await checkFirebaseStatus();
+
+            } catch (err) {
+                log("❌ Firebase Seeding Error: " + err.message);
+            }
+        }
+
+        window.onload = function() {
+            setTimeout(checkFirebaseStatus, 600);
+        };
+    </script>
+</body>
+</html>

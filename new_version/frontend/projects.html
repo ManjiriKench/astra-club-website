@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A.S.T.R.A | Projects</title>
+    <!-- Using Orbitron for a futuristic look and Poppins for readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js library for 3D graphics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* New Color Variables for a consistent scheme */
+        :root {
+            --primary-red: #FF6347; /* A vibrant, softer red */
+            --dark-red: #B22222;    /* A dark, earthy red */
+            --deep-black: #000000;
+            --bg-dark: #0A0A0A;
+            --bg-medium: #151515;
+            --text-color: #E0E0E0;
+            --glow-color: #FF7F50; /* A soft coral glow */
+        }
+
+        /* Global styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow: hidden; /* Hide scrollbars for the fullscreen canvas */
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative; /* Needed for absolute positioning of canvas */
+        }
+
+        /* Fullscreen Canvas for Three.js animation */
+        #three-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: -2; /* Placed behind the main content and body effects */
+            opacity: 0.2;
+        }
+
+        /* Glitch effect on body background */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        body::before {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 99, 71, 0.1) 0%, transparent 70%);
+            animation: radialGlitch 8s infinite ease-in-out;
+        }
+
+        body::after {
+            background-image: repeating-linear-gradient(0deg, var(--bg-dark), var(--bg-dark) 1px, transparent 1px, transparent 2px),
+                              repeating-linear-gradient(90deg, var(--bg-dark), var(--bg-dark) 1px, transparent 1px, transparent 2px);
+            background-size: 2px 2px, 2px 2px;
+            opacity: 0.1;
+        }
+        
+        /* Top Nav Bar - centralized layout */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 20px 20px;
+            padding: 1.2rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--dark-red);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-in-out;
+            transition: all 0.3s ease;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            height: 80px;
+            filter: drop-shadow(0 0 5px var(--glow-color));
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-color);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a, .nav-btn {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-btn:hover {
+            color: var(--primary-red);
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+        .nav-btn {
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+        }
+
+        /* Main Content Wrapper for layout change */
+        .main-content {
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1; /* Ensure content is above the canvas */
+        }
+
+        /* Section Header */
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(255, 99, 71, 0.6);
+            animation: glitch 2s linear infinite;
+        }
+        
+        .section-header span {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--primary-red);
+            margin-top: 1rem;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        /* The main "Coming Soon" message */
+        .coming-soon-message {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 2rem auto;
+            opacity: 0.8;
+        }
+
+        /* Glowing Divider animation */
+        .divider {
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
+            margin: 2rem auto;
+            animation: glowLine 4s infinite linear;
+            border: none;
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.8rem 2.5rem;
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            font-family: 'Orbitron', sans-serif;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 99, 71, 0.3);
+        }
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 99, 71, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, var(--bg-dark), var(--deep-black));
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-color);
+            font-weight: 300;
+            font-size: 0.9rem;
+            border-top: 2px solid var(--dark-red);
+            margin-top: auto; /* Pushes the footer to the bottom */
+        }
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+        @keyframes glowLine {
+            0% { transform: scaleX(0); opacity: 0; }
+            50% { transform: scaleX(1); opacity: 1; }
+            100% { transform: scaleX(0); opacity: 0; }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes radialGlitch {
+            0% { transform: scale(1.05); opacity: 1; }
+            10% { transform: scale(1.0); opacity: 0.8; }
+            20% { transform: scale(1.1); opacity: 1; }
+            30% { transform: scale(1.05); opacity: 0.9; }
+            40% { transform: scale(1.15); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            60% { transform: scale(1.05); opacity: 1; }
+            70% { transform: scale(1.2); opacity: 0.9; }
+            80% { transform: scale(1.0); opacity: 1; }
+            90% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 0.05em 0 0 rgba(255, 99, 71, 0.75), -0.05em -0.025em 0 rgba(0, 0, 0, 0.8);
+            }
+            14% {
+                text-shadow: 0.05em 0 0 rgba(255, 99, 71, 0.75), -0.05em -0.025em 0 rgba(0, 0, 0, 0.8);
+            }
+            15% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 99, 71, 0.75), 0.025em 0.05em 0 rgba(0, 0, 0, 0.8);
+            }
+            49% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 99, 71, 0.75), 0.025em 0.05em 0 rgba(0, 0, 0, 0.8);
+            }
+            50% {
+                text-shadow: 0.025em 0.05em 0 rgba(255, 99, 71, 0.75), -0.05em -0.025em 0 rgba(0, 0, 0, 0.8);
+            }
+            84% {
+                text-shadow: 0.025em 0.05em 0 rgba(255, 99, 71, 0.75), -0.05em -0.025em 0 rgba(0, 0, 0, 0.8);
+            }
+            85% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 99, 71, 0.75), 0.05em 0 0 rgba(0, 0, 0, 0.8);
+            }
+            100% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 99, 71, 0.75), 0.05em 0 0 rgba(0, 0, 0, 0.8);
+            }
+        }
+
+
+        /* Media Queries for responsiveness */
+        @media screen and (max-width: 768px) {
+            .top-nav {
+                width: 100%;
+                border-radius: 0;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .nav-links { display: none; }
+            .nav-btn { display: block; margin-top: 1rem; }
+            .section-header { font-size: 2.5rem; }
+            .section-header span { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Canvas for the Three.js animation -->
+    <canvas id="three-canvas"></canvas>
+
+    <nav class="top-nav">
+        <div class="logo-section">
+            <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+            <span class="title">A.S.T.R.A</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about-section">Blogs</a>
+            <a href="index.html#events-section">Events</a>
+            <a href="index.html#domains-section">Domains</a>
+            <a href="projects.html" class="active">Projects</a>
+            <a href="members.html">Members</a>
+        </div>
+        <button class="nav-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform', '_blank')">Join Us</button>
+    </nav>
+
+    <main class="main-content">
+        <!-- Projects header and main message -->
+        <header class="projects-header-section" id="projects-section" role="region" aria-label="Projects section">
+            <h2 class="section-header">
+                PROJECTS
+                <span>Initiating...</span>
+            </h2>
+            <hr class="divider" />
+            <p class="coming-soon-message">
+                Our A.S.T.R.A team is building something awesome right now.
+                Stay tuned for innovative apps, AI solutions, and hardware hacks that blend creativity and code!
+            </p>
+        </header>
+    </main>
+    
+    <footer>
+        &copy; 2025 A.S.T.R.A | AI-driven Systems for Technological Research and Advancement | All Rights Reserved
+    </footer>
+
+    <script>
+        // Three.js setup for a particle animation
+        let scene, camera, renderer;
+        let particles, particleSystem;
+
+        // Initialize the scene and components
+        function init() {
+            // Get the canvas element
+            const canvas = document.getElementById('three-canvas');
+
+            // Set up scene, camera, and renderer
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true }); // Make background transparent
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Create a particle geometry
+            const particleCount = 2000;
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            // Populate particle positions and colors randomly
+            for (let i = 0; i < particleCount; i++) {
+                // Positions
+                positions[i * 3] = (Math.random() - 0.5) * 10;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+
+                // Colors (random reds and oranges)
+                colors[i * 3] = (Math.random() * 0.5) + 0.5; // Red component
+                colors[i * 3 + 1] = Math.random() * 0.2;     // Green component
+                colors[i * 3 + 2] = Math.random() * 0.2;     // Blue component
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            // Create particle material
+            const material = new THREE.PointsMaterial({
+                size: 0.05,
+                vertexColors: true,
+                transparent: true,
+                blending: THREE.AdditiveBlending, // Makes particles glow
+                sizeAttenuation: true
+            });
+
+            // Create the particle system and add it to the scene
+            particleSystem = new THREE.Points(geometry, material);
+            scene.add(particleSystem);
+
+            // Set initial camera position
+            camera.position.z = 5;
+
+            // Handle window resizing
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Animate particles
+            const positions = particleSystem.geometry.attributes.position.array;
+            const colors = particleSystem.geometry.attributes.color.array;
+            const time = Date.now() * 0.0001;
+
+            for (let i = 0; i < positions.length / 3; i++) {
+                // Simple sine wave movement for a subtle, fluid motion
+                positions[i * 3] += Math.sin(time + i) * 0.005;
+                positions[i * 3 + 1] += Math.cos(time + i) * 0.005;
+                positions[i * 3 + 2] += Math.sin(time + i) * 0.005;
+
+                // Simple pulsating color effect
+                const pulse = (Math.sin(time * 5 + i) + 1) / 2;
+                colors[i * 3] = pulse * 0.5 + 0.5; // Red component
+                colors[i * 3 + 1] = pulse * 0.1;   // Green component
+                colors[i * 3 + 2] = pulse * 0.1;   // Blue component
+            }
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+            particleSystem.geometry.attributes.color.needsUpdate = true;
+
+            // Rotate the particle system for dynamic view
+            particleSystem.rotation.x += 0.0005;
+            particleSystem.rotation.y += 0.0008;
+
+            // Render the scene
+            renderer.render(scene, camera);
+        }
+
+        // Start the animation after the window loads
+        window.onload = function() {
+            init();
+            animate();
+        };
+    </script>
+</body>
+</html>

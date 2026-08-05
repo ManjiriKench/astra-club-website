@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A.S.T.R.A | Abhivruddhi in Strategic Technological Research and Advancement</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #FF4500;
+            --dark-red: #8B0000;
+            --crimson-accent: #D32F2F;
+            --deep-black: #050101;
+            --bg-dark: #000000;
+            --bg-medium: #110808;
+            --text-color: #d1d5db;
+            --glow-color: #FF6347;
+            --card-border: rgba(255, 69, 0, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Interactive Canvas Background */
+        #logo-animation-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 30%, #1a0303 0%, #080000 60%, #000000 100%);
+            pointer-events: auto;
+        }
+
+        /* Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 92%; max-width: 1240px;
+            background: rgba(15, 5, 5, 0.88);
+            backdrop-filter: blur(12px);
+            border-radius: 0 0 20px 20px;
+            padding: 0.9rem 2rem;
+            z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid rgba(139, 0, 0, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            animation: fadeInDown 0.8s ease-in-out;
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 0.8rem; cursor: pointer; }
+        .logo { height: 60px; filter: drop-shadow(0 0 6px var(--glow-color)); }
+        .title { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 700; color: #ffffff; letter-spacing: 0.08em; }
+
+        .nav-links { display: flex; gap: 1.2rem; align-items: center; }
+        .nav-links a {
+            color: var(--text-color); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+            padding: 0.4rem 0.8rem; border-radius: 6px; transition: all 0.3s ease;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-red); text-shadow: 0 0 8px var(--glow-color); }
+
+        .nav-btn {
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+            color: white; border: none; padding: 0.6rem 1.4rem; border-radius: 8px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 0 12px rgba(255, 69, 0, 0.4); text-decoration: none;
+            display: inline-block;
+        }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 18px rgba(255, 69, 0, 0.7); }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 120px 1.5rem 4rem; text-align: center; position: relative; z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(139, 0, 0, 0.35);
+            border: 1px solid rgba(255, 69, 0, 0.4);
+            color: var(--primary-red);
+            font-size: 0.82rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+            padding: 0.4rem 1.2rem; border-radius: 50px; margin-bottom: 1.2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3.2rem, 7vw, 5.8rem);
+            font-weight: 900; color: #ffffff; letter-spacing: 0.04em;
+            text-shadow: 0 0 25px rgba(255, 69, 0, 0.7), 0 0 50px rgba(139, 0, 0, 0.5);
+            line-height: 1.1; margin-bottom: 0.8rem;
+            animation: neonGlow 2.5s infinite alternate ease-in-out;
+        }
+
+        .hero-fullname {
+            font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+            color: #ffffff; font-weight: 500; margin-bottom: 0.6rem; letter-spacing: 0.02em;
+        }
+
+        .hero-subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--primary-red); letter-spacing: 0.15em; font-weight: 700;
+            text-transform: uppercase; margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem; }
+        .hero-btn {
+            padding: 0.85rem 2rem; border-radius: 8px; font-weight: 600; text-decoration: none;
+            transition: all 0.3s ease; font-size: 0.95rem;
+        }
+        .hero-btn.primary-btn {
+            background: linear-gradient(90deg, #8B0000, #FF4500); color: white;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.4); border: none;
+        }
+        .hero-btn.primary-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 25px rgba(255, 69, 0, 0.7); }
+        .hero-btn.secondary-btn {
+            background: rgba(20, 10, 10, 0.8); color: white; border: 1px solid var(--primary-red);
+        }
+        .hero-btn.secondary-btn:hover { background: var(--primary-red); color: black; box-shadow: 0 0 15px var(--glow-color); }
+
+        /* Main Content Wrapper */
+        .main-content { max-width: 1320px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: #ffffff; text-align: center; margin-bottom: 0.5rem;
+            text-shadow: 0 0 18px rgba(255, 69, 0, 0.4);
+        }
+        .section-subheader {
+            text-align: center; color: #a1a1aa; font-size: 1rem; margin-bottom: 3rem;
+        }
+
+        /* Vision & Mission Cards */
+        .vm-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
+            margin-bottom: 5rem;
+        }
+        .vm-card {
+            background: linear-gradient(145deg, rgba(25, 10, 10, 0.75), rgba(10, 5, 5, 0.85));
+            border: 1px solid var(--card-border); border-radius: 16px; padding: 2.2rem;
+            backdrop-filter: blur(8px); transition: all 0.3s ease; display: flex; flex-direction: column;
+        }
+        .vm-card:hover { transform: translateY(-6px); border-color: var(--primary-red); box-shadow: 0 10px 30px rgba(255, 69, 0, 0.25); }
+        .vm-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .vm-card h3 { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: #ffffff; margin-bottom: 1rem; }
+        .vm-card ul { list-style: none; padding: 0; }
+        .vm-card ul li { margin-bottom: 0.6rem; padding-left: 1.4rem; position: relative; font-size: 0.95rem; }
+        .vm-card ul li::before { content: '▹'; position: absolute; left: 0; color: var(--primary-red); font-weight: bold; }
+        .vm-card.highlight-card { border-color: var(--primary-red); background: linear-gradient(145deg, rgba(45, 10, 10, 0.85), rgba(15, 5, 5, 0.95)); }
+        .motto-text { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: var(--primary-red); font-weight: 700; margin: 1rem 0; }
+        .motto-badge { display: inline-block; font-size: 0.8rem; color: #a1a1aa; background: rgba(255, 69, 0, 0.15); padding: 0.3rem 0.8rem; border-radius: 4px; }
+
+        /* Stats Bar Section */
+        .stats-section { margin-bottom: 5rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+        .stat-card {
+            background: rgba(18, 8, 8, 0.8); border: 1px solid rgba(255, 69, 0, 0.3);
+            border-radius: 14px; padding: 1.8rem; text-align: center; transition: all 0.3s ease;
+        }
+        .stat-card:hover { transform: scale(1.03); border-color: var(--primary-red); box-shadow: 0 0 20px rgba(255, 69, 0, 0.3); }
+        .stat-number { font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; color: var(--primary-red); text-shadow: 0 0 15px rgba(255, 69, 0, 0.6); }
+        .stat-label { font-size: 1.1rem; font-weight: 600; color: #ffffff; margin: 0.3rem 0; }
+        .stat-desc { font-size: 0.85rem; color: #a1a1aa; }
+
+        /* Flagship Projects Section */
+        .flagship-section { margin-bottom: 5rem; }
+        .flagship-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem; }
+        .flagship-card {
+            background: linear-gradient(135deg, rgba(25, 8, 8, 0.8), rgba(8, 4, 4, 0.9));
+            border: 1px solid rgba(255, 69, 0, 0.3); border-radius: 14px; padding: 1.8rem;
+            transition: all 0.35s ease; display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .flagship-card:hover { transform: translateY(-8px); border-color: var(--primary-red); box-shadow: 0 12px 32px rgba(255, 69, 0, 0.3); }
+        .flagship-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; color: var(--primary-red); background: rgba(255, 69, 0, 0.15); padding: 0.3rem 0.7rem; border-radius: 4px; text-transform: uppercase; margin-bottom: 0.8rem; width: fit-content; }
+        .flagship-card h3 { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.6rem; }
+        .flagship-card p { font-size: 0.9rem; color: #cccccc; margin-bottom: 1.2rem; line-height: 1.5; }
+        .flagship-link { color: var(--primary-red); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.2s ease; }
+        .flagship-link:hover { text-decoration: underline; text-shadow: 0 0 8px var(--glow-color); }
+
+        /* Events Section */
+        .cards-section { position: relative; padding: 2rem 0 5rem; }
+        .cards-container {
+            display: flex; overflow-x: auto; gap: 1.8rem; scroll-behavior: smooth;
+            padding: 1rem 0; scrollbar-width: none;
+        }
+        .cards-container::-webkit-scrollbar { display: none; }
+        .cards { display: flex; gap: 1.8rem; }
+
+        .card {
+            min-width: 320px; max-width: 340px;
+            background: linear-gradient(135deg, rgba(20, 8, 8, 0.85), rgba(5, 2, 2, 0.9));
+            border: 1px solid rgba(255, 69, 0, 0.3); border-radius: 14px; padding: 1.5rem;
+            transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .card:hover { transform: translateY(-8px); border-color: var(--primary-red); box-shadow: 0 10px 25px rgba(255, 69, 0, 0.35); }
+        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; }
+        .card-title { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: white; margin-bottom: 0.5rem; }
+        .card p { font-size: 0.88rem; color: #b0b0b0; margin-bottom: 0.3rem; }
+
+        .arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7); color: var(--text-color);
+            border: 1px solid var(--primary-red); border-radius: 50%; width: 44px; height: 44px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+            cursor: pointer; z-index: 10; transition: all 0.3s ease; user-select: none;
+        }
+        .arrow:hover { background: var(--primary-red); color: black; box-shadow: 0 0 15px var(--glow-color); }
+        .left-arrow { left: -15px; } .right-arrow { right: -15px; }
+
+        /* Domains Section */
+        #domains-section { padding: 2rem 0 5rem; }
+        .domains-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem; }
+        .domain-card {
+            background: linear-gradient(135deg, rgba(25, 8, 8, 0.8), rgba(5, 2, 2, 0.9));
+            border: 1px solid rgba(255, 69, 0, 0.3); border-radius: 14px; padding: 2rem;
+            text-align: center; cursor: pointer; transition: all 0.35s ease;
+        }
+        .domain-card:hover { transform: translateY(-8px); border-color: var(--primary-red); box-shadow: 0 12px 30px rgba(255, 69, 0, 0.3); }
+        .domain-card h3 { font-family: 'Orbitron', sans-serif; font-size: 1.25rem; color: var(--primary-red); margin-bottom: 0.8rem; }
+        .domain-card p { font-size: 0.9rem; color: #cccccc; }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, #000000, #100404);
+            text-align: center; padding: 2rem 1rem; color: #a1a1aa;
+            font-size: 0.9rem; border-top: 1px solid var(--dark-red);
+        }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+        @keyframes neonGlow {
+            0% { text-shadow: 0 0 15px rgba(255, 69, 0, 0.6), 0 0 25px rgba(255, 69, 0, 0.4); }
+            100% { text-shadow: 0 0 25px rgba(255, 69, 0, 0.95), 0 0 50px rgba(255, 99, 71, 0.8), 0 0 75px rgba(139, 0, 0, 0.7); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .top-nav { padding: 0.8rem 1.2rem; }
+            .hero-section { padding-top: 100px; }
+            .left-arrow, .right-arrow { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Live Interactive Star-Constellation Canvas -->
+    <canvas id="logo-animation-bg"></canvas>
+
+    <nav class="top-nav">
+        <div class="logo-section" onclick="window.location.href='index.html'">
+            <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+            <span class="title">A.S.T.R.A</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#vision-mission-section">About</a>
+            <a href="#events-section">Events</a>
+            <a href="#domains-section">Domains</a>
+            <a href="projects.html">Projects</a>
+            <a href="members.html">Members</a>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform" target="_blank" class="nav-btn">Join Us</a>
+    </nav>
+
+    <section id="home" class="hero-section">
+        <h1 class="hero-title">A.S.T.R.A</h1>
+        <p class="hero-fullname">Abhivruddhi in Strategic Technological Research and Advancement</p>
+        <p class="hero-subtitle">Research. Technology. Revolution.</p>
+        <div class="hero-cta">
+            <a href="projects.html" class="hero-btn primary-btn">Explore Projects</a>
+            <a href="#domains-section" class="hero-btn secondary-btn">Our Domains</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform" target="_blank" class="hero-btn secondary-btn">Join Club</a>
+        </div>
+    </section>
+
+    <main class="main-content">
+
+        <!-- Vision & Mission Section -->
+        <section id="vision-mission-section" style="padding-top: 2rem;">
+            <h2 class="section-header">About A.S.T.R.A</h2>
+            <p class="section-subheader">Official Technology and Research Club of Department of Engineering Sciences</p>
+            <div class="vm-grid">
+                <div class="vm-card">
+                    <div class="vm-icon">🎯</div>
+                    <h3>Our Mission</h3>
+                    <ul>
+                        <li>Promote Research and Innovation</li>
+                        <li>Build Real-World Industry Projects</li>
+                        <li>Explore AI, IoT, Cybersecurity & Emerging Tech</li>
+                        <li>Encourage Interdisciplinary Growth</li>
+                    </ul>
+                </div>
+                <div class="vm-card highlight-card">
+                    <div class="vm-icon">⚡</div>
+                    <h3>Our Motto</h3>
+                    <p class="motto-text">"Research. Technology. Revolution."</p>
+                    <span class="motto-badge">Engineering Sciences Tech & RnD Hub</span>
+                </div>
+                <div class="vm-card">
+                    <div class="vm-icon">🚀</div>
+                    <h3>Our Vision</h3>
+                    <p>To create a vibrant community of innovators who solve real-world problems through cutting-edge research, adapting to emerging technologies, and shaping a future-driven ecosystem.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Bar Section -->
+        <section class="stats-section">
+            <h2 class="section-header">Research & Project Impact</h2>
+            <p class="section-subheader">Data-driven performance overview from official club analysis</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">60+</div>
+                    <div class="stat-label">Total R&D Projects</div>
+                    <div class="stat-desc">23 Completed • 34 Ongoing • 3 Proposed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">17</div>
+                    <div class="stat-label">Paper Publications</div>
+                    <div class="stat-desc">5 Accepted • 10 Presented • 2 Published</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Specialized Domains</div>
+                    <div class="stat-desc">Fullstack, AI/ML, CyberSec, IoT, R&D, DevOps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Active Members</div>
+                    <div class="stat-desc">Interdisciplinary Student & Faculty Roster</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flagship Projects Showcase -->
+        <section class="flagship-section">
+            <h2 class="section-header">Flagship Projects</h2>
+            <p class="section-subheader">Featured technological innovations built by A.S.T.R.A researchers</p>
+            <div class="flagship-grid">
+                <div class="flagship-card">
+                    <div>
+                        <span class="flagship-tag">Cybersecurity & AI</span>
+                        <h3>MEDHA</h3>
+                        <p>Intelligent autonomous cyber defense framework detecting, analyzing, and responding to cyber threats in real time using Explainable Deep Learning and Hybrid Reinforcement Learning.</p>
+                    </div>
+                    <a href="projectdomain.html?domain=cybersec" class="flagship-link">Explore Cybersec Projects &rarr;</a>
+                </div>
+                <div class="flagship-card">
+                    <div>
+                        <span class="flagship-tag">Network Security</span>
+                        <h3>CYBERNETICS DEFENSE (NIDS)</h3>
+                        <p>Real-time network intrusion monitoring system analyzing protocol anomalies and classifying DoS, DDoS, brute-force attacks, and port scanning with high accuracy.</p>
+                    </div>
+                    <a href="projectdomain.html?domain=cybersec" class="flagship-link">Explore Security Projects &rarr;</a>
+                </div>
+                <div class="flagship-card">
+                    <div>
+                        <span class="flagship-tag">NLP & Machine Learning</span>
+                        <h3>RESUME-IQ</h3>
+                        <p>AI-Powered resume evaluation and ranking screener against job descriptions, featuring instant match scoring, ATS compatibility, and candidate skill gap analytics.</p>
+                    </div>
+                    <a href="projectdomain.html?domain=aiml" class="flagship-link">Explore AI/ML Projects &rarr;</a>
+                </div>
+                <div class="flagship-card">
+                    <div>
+                        <span class="flagship-tag">Deep Learning / Healthcare</span>
+                        <h3>BRAIN TUMOR DETECTION</h3>
+                        <p>Deep Learning computer vision pipeline classifying MRI scans (glioma, meningioma, pituitary) with high precision using Grad-CAM explainable AI visualization.</p>
+                    </div>
+                    <a href="projectdomain.html?domain=aiml" class="flagship-link">Explore Healthcare AI &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events-section" class="cards-section">
+            <h2 class="section-header">Club Activities & Workshops</h2>
+            <p class="section-subheader">Key sessions, hackathons, and technical workshops hosted by A.S.T.R.A</p>
+            <div class="cards-container">
+                <div class="cards" id="dynamic-events-cards">
+                    <!-- Events will be rendered dynamically by public-dynamic.js -->
+                </div>
+            </div>
+            <span class="arrow left-arrow" aria-label="Scroll Left">&lt;</span>
+            <span class="arrow right-arrow" aria-label="Scroll Right">&gt;</span>
+        </section>
+
+        <!-- Domains Section -->
+        <section id="domains-section">
+            <h2 class="section-header">Our Technical Domains</h2>
+            <p class="section-subheader">Explore our 6 specialized innovation wings</p>
+            <div class="domains-grid">
+                <div class="domain-card" onclick="window.location.href='research.html'">
+                    <img src="logor.png" alt="Research" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3>Research & Development</h3>
+                    <p>Fostering a culture of academic innovation, paper publication pipelines, and mathematical modeling.</p>
+                </div>
+                <div class="domain-card" onclick="window.location.href='devops.html'">
+                    <img src="logod.png" alt="Devops" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3>Technical Operations (DevOps)</h3>
+                    <p>Bridging development and cloud infrastructure, CI/CD deployment pipelines, and system reliability.</p>
+                </div>
+                <div class="domain-card" onclick="window.location.href='ai.html'">
+                    <img src="logoai.png" alt="AI/ML" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3>AI / ML / Data Science</h3>
+                    <p>Building neural networks, computer vision tools, NLP screeners, and predictive data analytics.</p>
+                </div>
+                <div class="domain-card" onclick="window.location.href='webdev.html'">
+                    <img src="logofull.png" alt="Fullstack" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3>Full Stack Web Development</h3>
+                    <p>Engineering web portals, real-time web services, interactive dashboards, and cloud platforms.</p>
+                </div>
+                <div class="domain-card" onclick="window.location.href='cybersecurity.html'">
+                    <img src="logocyber.png" alt="Cybersecurity" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3>Cybersecurity</h3>
+                    <p>Developing intrusion detection systems, OSINT social threat monitors, and defensive protocols.</p>
+                </div>
+                <div class="domain-card" onclick="window.location.href='robotics.html'">
+                    <img src="logoiot.png" alt="IoT" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3>IoT & Robotics</h3>
+                    <p>Designing autonomous rovers, sensor-driven microcontrollers, delivery robots, and smart climate systems.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blogs Section -->
+        <section id="blogs-section" style="padding-bottom: 4rem;">
+            <h2 class="section-header">Latest Blogs</h2>
+            <div class="domains-grid">
+                <div class="domain-card" onclick="window.location.href='blog1.html'">
+                    <h3>A.S.T.R.A Club Introduction</h3>
+                    <p>Discover our core journey, mission, and how we foster technological research.</p>
+                </div>
+                <div class="domain-card" onclick="window.location.href='blog2.html'">
+                    <h3>A.S.T.R.A Induction Highlights</h3>
+                    <p>Recap of our flagship induction event and orientation cohort.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2025 A.S.T.R.A | Abhivruddhi in Strategic Technological Research and Advancement | Department of Engineering Sciences
+    </footer>
+
+    <!-- Interactive Canvas Script with Mouse Interaction -->
+    <script>
+        const canvas = document.getElementById('logo-animation-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        // Particle Constellation Network
+        const particles = [];
+        const particleCount = Math.min(Math.floor(window.innerWidth / 12), 110);
+        const mouse = { x: null, y: null, radius: 170 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.radius = Math.random() * 2 + 1;
+                this.alpha = Math.random() * 0.5 + 0.3;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                // Mouse interaction / gravity
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < mouse.radius) {
+                        const force = (mouse.radius - dist) / mouse.radius;
+                        this.x += (dx / dist) * force * 1.5;
+                        this.y += (dy / dist) * force * 1.5;
+                    }
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 69, 0, ${this.alpha})`;
+                ctx.shadowColor = '#FF6347';
+                ctx.shadowBlur = 8;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+
+            if (particles.length === 0) {
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Update & draw particles
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Connect nearby particles
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 110) {
+                        const alpha = (1 - dist / 110) * 0.25;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(255, 69, 0, ${alpha})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Connect mouse to nearby particles with neon laser lines
+            if (mouse.x !== null && mouse.y !== null) {
+                particles.forEach(p => {
+                    const dx = mouse.x - p.x;
+                    const dy = mouse.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < mouse.radius) {
+                        const alpha = (1 - dist / mouse.radius) * 0.65;
+                        ctx.beginPath();
+                        ctx.moveTo(mouse.x, mouse.y);
+                        ctx.lineTo(p.x, p.y);
+                        ctx.strokeStyle = `rgba(255, 99, 71, ${alpha})`;
+                        ctx.lineWidth = 1.2;
+                        ctx.shadowColor = '#FF4500';
+                        ctx.shadowBlur = 10;
+                        ctx.stroke();
+                        ctx.shadowBlur = 0;
+                    }
+                });
+            }
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        window.onload = async function() {
+            resizeCanvas();
+            animateCanvas();
+
+            // Render Events from public-dynamic.js dataset
+            if (typeof getEvents === 'function') {
+                const events = await getEvents();
+                const container = document.getElementById('dynamic-events-cards');
+                if (container && events && events.length > 0) {
+                    container.innerHTML = '';
+                    events.forEach(evt => {
+                        container.innerHTML += `
+                        <div class="card">
+                            <img src="${evt.imageUrl || 'inaugration.jpg'}" alt="${evt.title}" onerror="this.src='inaugration.jpg'"/>
+                            <h3 class="card-title">${evt.title}</h3>
+                            <p><strong>Date:</strong> ${evt.date}</p>
+                            <p><strong>Venue:</strong> ${evt.venue}</p>
+                        </div>`;
+                    });
+                }
+            }
+
+            // Events section auto-scroll & arrows
+            const cardsContainer = document.querySelector('.cards-container');
+            const leftArrow = document.querySelector('.left-arrow');
+            const rightArrow = document.querySelector('.right-arrow');
+            let scrollInterval;
+            const scrollStep = 340;
+
+            const startAutoScroll = () => {
+                scrollInterval = setInterval(() => {
+                    if (cardsContainer) {
+                        if (cardsContainer.scrollLeft + cardsContainer.clientWidth >= cardsContainer.scrollWidth - 5) {
+                            cardsContainer.scrollLeft = 0;
+                        } else {
+                            cardsContainer.scrollLeft += scrollStep;
+                        }
+                    }
+                }, 3500);
+            };
+
+            const stopAutoScroll = () => clearInterval(scrollInterval);
+
+            if (leftArrow && cardsContainer) {
+                leftArrow.addEventListener('click', () => { cardsContainer.scrollLeft -= scrollStep; });
+            }
+            if (rightArrow && cardsContainer) {
+                rightArrow.addEventListener('click', () => { cardsContainer.scrollLeft += scrollStep; });
+            }
+
+            if (cardsContainer) {
+                cardsContainer.addEventListener('mouseenter', stopAutoScroll);
+                cardsContainer.addEventListener('mouseleave', startAutoScroll);
+                startAutoScroll();
+            }
+        };
+    </script>
+
+    <!-- Firebase & Core Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/public-dynamic.js"></script>
+</body>
+</html>

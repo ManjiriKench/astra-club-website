@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A.S.T.R.A - Blogs</title>
+    <!-- Using Orbitron for a futuristic look and Poppins for readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* New Color Variables for a consistent scheme */
+        :root {
+            --primary-red: #FF4500; /* A vibrant red */
+            --dark-red: #8B0000;    /* A dark red */
+            --deep-black: #000000;
+            --bg-dark: #000000;
+            --bg-medium: #111111;
+            --text-color: #cccccc;
+            --glow-color: #FF6347; /* A bright, glowing red */
+            --gradient-start: #110000;
+            --gradient-end: #000000;
+        }
+
+        /* Global styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        /* Interactive Logo Animation Background Canvas */
+        #logo-animation-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            background: #000000; /* True black background */
+            pointer-events: none; /* Do not block interaction with the content */
+        }
+
+        /* Top Nav Bar - centralized layout */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 20px 20px;
+            padding: 1.2rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--dark-red);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-in-out;
+            transition: all 0.3s ease;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            height: 80px;
+            filter: drop-shadow(0 0 5px var(--glow-color));
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--text-color);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a, .nav-btn {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-btn:hover {
+            color: var(--primary-red);
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+        .nav-btn {
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+        }
+
+        /* Hamburger menu and sidebar for mobile */
+        .hamburger { display: none; }
+        .sidebar { display: none; }
+
+        /* Main Content Wrapper for layout change */
+        .main-content {
+            padding: 8rem 5% 2rem; /* Added top padding to account for fixed navbar */
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Blogs Section Specific Styles */
+        .blog-container {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .blog-post {
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.7), rgba(0, 0, 0, 0.7));
+            border: 2px solid rgba(255, 69, 0, 0.3);
+            border-radius: 12px;
+            padding: 2.5rem;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        .blog-post:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-red);
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+        .post-header {
+            margin-bottom: 1.5rem;
+        }
+        .post-title {
+            font-family: 'sans-serif';
+            font-size: 2rem;
+            color: rgba(225, 34, 34, 0.771);
+            text-shadow: 0 0 8px rgba(255, 69, 0, 0.5);
+            margin-bottom: 0.5rem;
+        }
+        .post-meta {
+            font-size: 0.9rem;
+            color: #999;
+        }
+        .post-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+            .blog-heading {
+            font-family: 'sans-serif';
+            font-size: 1.5rem;
+            color: var(white);
+            text-align: center;
+            margin-bottom: 3rem;
+            
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, var(--bg-dark), var(--deep-black));
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-color);
+            font-weight: 300;
+            font-size: 0.9rem;
+            border-top: 2px solid var(--dark-red);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+
+        /* Media Queries for responsiveness */
+        @media screen and (max-width: 768px) {
+            .top-nav {
+                width: 100%;
+                border-radius: 0;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .nav-links { display: none; }
+            .nav-btn { display: block; margin-top: 1rem; }
+            .post-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="logo-animation-bg"></canvas>
+
+    <nav class="top-nav">
+        <div class="logo-section">
+            <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+            <span class="title">A.S.T.R.A</span>
+        </div>
+            <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about-section">Blogs</a>
+            <a href="index.html#events-section">Events</a>
+            <a href="index.html#domains-section">Domains</a>
+            <a href="projects.html" class="active">Projects</a>
+            <a href="members.html">Members</a>
+        </div>
+        <button class="nav-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform', '_blank')">Join Us</button>
+    </nav>
+    
+   <main class="main-content">
+    <section id="blogs-section">
+
+<div class ="blog-container">
+    <article class="blog-post">
+        <header class="post-header">
+        <h2> A.S.T.R.A Induction 2025 – The Highlights </h2></header>
+        <div class="post-content">
+            <p>Day 5 of A.S.T.R.A’s induction week was all about action ;a power-packed schedule filled with sessions that inspired creativity, sharpened skills, and gave a glimpse of the exciting journey ahead. From deep dives into research techniques to ethical hacking know-how and even AI-driven yoga fun, the day brought a perfect blend of learning, interaction, and hands-on tech experiences.
+                Here are the highlights</p>
+        <div class="blog-container">
+            <!-- Blog Post 1 -->
+            <article class="blog-post">
+                <header class="post-header">
+                    <h3 class="post-title">Research & Development Workshop with Nitiraj Kulkarni</h3>
+                </header>
+                <div class="post-content">
+                    <p>The online Research and Development workshop by Nitiraj Kulkarni was one of those sessions where you walk in with curiosity and walk out buzzing with ideas. Nitiraj took us through the core process of doing impactful research - starting from identifying real-world problems to actually structuring creative, workable solutions.
+                        We explored how to carry out a solid literature review, pick the right methodology, and use collaborative tools to keep projects on track.  He also walked us through the detailed process of research paper writing, patent filing and copyright declaration. What really stood out was how Nitiraj didn’t just share “textbook knowledge”  he shared stories from his own research journey, including the hiccups, the breakthroughs, and the lessons learned the hard way
+                        The session wrapped up with an open Q&A, where students pitched their project ideas and got live feedback. By the end, everyone had that “I want to start something right now!” energy.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Blog Post 2 -->
+            <article class="blog-post">
+                <header class="post-header">
+                    <h3 class="post-title">Cybersecurity Session – From Phishing to Flipper</h3>
+                </header>
+                <div class="post-content">
+                    <p>This one was a crowd favourite — a full-on, practical dive into the fascinating (and sometimes scary) world of cybersecurity.
+                        We kicked off with Phishing — learning how attackers try to trick people into revealing sensitive data and, more importantly, how to spot the traps. Then came DDoS attacks — massive floods of fake traffic that can knock websites offline, with real-world cases that made the threat feel very real.
+                        Things got even more interesting with OSINT (Open-Source Intelligence), where we saw how publicly available data can be used for investigations, and then the show-stealer — Flipper Zero. This pocket-sized multi-tool for ethical hacking and hardware exploration had everyone’s attention, especially when the live demos showed just how much you can do with it.
+                        It wasn’t just “doom and gloom” about online threats — the session was about building awareness, staying vigilant, and understanding the responsibility that comes with tech skills.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Blog Post 3 -->
+            <article class="blog-post">
+                <header class="post-header">
+                    <h3 class="post-title">Interactive AI Session by Om Dangi</h3>
+                </header>
+                <div class="post-content">
+                    <p>When tech meets fitness, the result can be both surprising and exciting — and Om Dangi’s OpenCV-based Yoga Pose Analysis project was the perfect proof. Far from being a “sit back and watch” moment, this was an interactive experience where the audience became part of the demo. Volunteers stepped up to the camera as the system, powered by AI and computer vision, recognized and analyzed their yoga poses in real time. On-screen feedback showed how accurate each pose was, sparking laughter, friendly competition, and even a few moments of “Wait… how do you do that stretch again?”
+                        What made this project stand out was its seamless blend of technology and wellness. It demonstrated how computer vision can go beyond academic or industrial applications to make health and fitness more accessible and engaging. Instead of feeling like a tech-heavy showcase, it felt like a fun group activity — where learning about AI happened naturally through participation. By combining real-time pose detection, health awareness, and an element of play, Om’s project reminded everyone that innovation doesn’t have to be intimidating; it can be inviting, useful, and even a little bit playful.
+                    </p>
+                </div>
+            </article>
+        </div>
+    </section>
+</main>
+
+    <section id="Members">
+
+    <footer>
+        &copy; 2025 A.S.T.R.A | All Rights Reserved
+    </footer>
+
+    <!-- Scripts for the new logo animation background -->
+    <script>
+        const canvas = document.getElementById('logo-animation-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        let animationFrameId;
+        const totalDuration = 5000; // Total animation duration in milliseconds
+        let startTime = null;
+
+        // Function to create a path and get its length for stroke animation
+        function createPath(callback) {
+            const path = new Path2D();
+            callback(path);
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.lineWidth = 2;
+            tempCtx.strokeStyle = 'white';
+            tempCtx.stroke(path);
+            return { path, length: tempCtx.measureText('a').width * 100 }; // A simple approximation for path length
+        }
+
+        // Define paths for the lotus and arrow
+        const lotusCenterPath = createPath(p => {
+            p.moveTo(0, -60);
+            p.bezierCurveTo(-15, -45, -15, -15, 0, 0);
+            p.bezierCurveTo(15, -15, 15, -45, 0, -60);
+        });
+
+        const lotusLeftPetal = createPath(p => {
+            p.moveTo(0, -50);
+            p.bezierCurveTo(-40, -40, -50, -10, -50, 0);
+            p.lineTo(0, -25);
+        });
+        const lotusRightPetal = createPath(p => {
+            p.moveTo(0, -50);
+            p.bezierCurveTo(40, -40, 50, -10, 50, 0);
+            p.lineTo(0, -25);
+        });
+
+        const lotusLeftWing = createPath(p => {
+            p.moveTo(-40, -10);
+            p.bezierCurveTo(-70, 0, -60, 30, 0, 40);
+        });
+        const lotusRightWing = createPath(p => {
+            p.moveTo(40, -10);
+            p.bezierCurveTo(70, 0, 60, 30, 0, 40);
+        });
+
+        const lotusStem = createPath(p => {
+            p.moveTo(0, 40);
+            p.bezierCurveTo(5, 50, -5, 60, 0, 70);
+        });
+
+        const arrowShaftPath = createPath(p => {
+            p.moveTo(-100, 0);
+            p.lineTo(100, 0);
+        });
+
+        const arrowHeadPath = createPath(p => {
+            p.moveTo(100, 0);
+            p.lineTo(130, -5);
+            p.lineTo(130, 5);
+            p.lineTo(100, 0);
+        });
+
+        const arrowFletchingPath = createPath(p => {
+            p.moveTo(-100, 0);
+            p.lineTo(-120, -5);
+            p.lineTo(-115, 0);
+            p.lineTo(-120, 5);
+            p.lineTo(-100, 0);
+            p.moveTo(-105, 0);
+            p.lineTo(-125, -5);
+            p.lineTo(-120, 0);
+            p.lineTo(-125, 5);
+            p.lineTo(-105, 0);
+        });
+
+        // Store all paths in an array for easy iteration
+        const allPaths = [
+            { path: lotusCenterPath, color: 'white', start: 0, end: 1500 },
+            { path: lotusLeftPetal, color: 'white', start: 1000, end: 2000 },
+            { path: lotusRightPetal, color: 'white', start: 1000, end: 2000 },
+            { path: lotusLeftWing, color: 'white', start: 1500, end: 2500 },
+            { path: lotusRightWing, color: 'white', start: 1500, end: 2500 },
+            { path: lotusStem, color: 'white', start: 2000, end: 3000 },
+            { path: arrowShaftPath, color: 'red', start: 2500, end: 3500 },
+            { path: arrowHeadPath, color: 'red', start: 3200, end: 4000 },
+            { path: arrowFletchingPath, color: 'red', start: 3500, end: 4500 }
+        ];
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        function draw(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+
+            allPaths.forEach(item => {
+                let progress = 0;
+                if (elapsed >= item.start) {
+                    progress = Math.min(1, (elapsed - item.start) / (item.end - item.start));
+                }
+
+                if (progress > 0) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = item.color === 'red' ? 'var(--primary-red)' : 'var(--text-color)';
+                    ctx.lineWidth = 2;
+                    ctx.shadowColor = 'var(--glow-color)';
+                    ctx.shadowBlur = 10;
+                    
+                    const length = item.path.length; // This is a rough approximation
+                    ctx.setLineDash([length]);
+                    ctx.lineDashOffset = length * (1 - progress);
+                    ctx.stroke(item.path.path);
+                    
+                    ctx.setLineDash([]); // Reset line dash
+                    ctx.shadowBlur = 0; // Reset shadow
+                }
+            });
+
+            ctx.restore();
+
+            if (elapsed < totalDuration) {
+                animationFrameId = requestAnimationFrame(draw);
+            } else {
+                // Draw the final state once animation is complete
+                drawFinalLogo();
+            }
+        }
+
+        function drawFinalLogo() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            allPaths.forEach(item => {
+                ctx.beginPath();
+                ctx.strokeStyle = item.color === 'red' ? 'var(--primary-red)' : 'var(--text-color)';
+                ctx.lineWidth = 2;
+                ctx.shadowColor = 'var(--glow-color)';
+                ctx.shadowBlur = 10;
+                ctx.stroke(item.path.path);
+                ctx.shadowBlur = 0;
+            });
+            ctx.restore();
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            startTime = null;
+            animationFrameId = requestAnimationFrame(draw);
+        });
+
+        window.onload = function() {
+            resizeCanvas();
+            animationFrameId = requestAnimationFrame(draw);
+        };
+    </script>
+
+  <!-- Firebase & A.S.T.RA Core Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/public-dynamic.js"></script>
+</body>
+</html>

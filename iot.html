@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A.S.T.R.A | Robotics & IoT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0a0a0a 30%, #381212 50%, #200202 100%);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    .hamburger {
+      position: fixed; top: 20px; left: 20px; z-index: 1001;
+      cursor: pointer; display: flex; flex-direction: column; gap: 5px;
+    }
+    .hamburger div { width: 30px; height: 3px; background: white; border-radius: 2px; transition: 0.3s; }
+    .sidebar {
+          position: fixed;
+          top: 0;
+          left: -260px;
+          height: 100%;
+          width: 260px;
+          background: #1c1c1c;
+          padding: 2rem 1rem;
+          box-shadow: 2px 0 20px rgba(0,0,0,0.6);
+          transition: 
+            left 0.4s cubic-bezier(.55,1.6,.43,1.02),
+            opacity 0.25s,
+            visibility 0.25s;
+          z-index: 1000;
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;   /* Prevents any interaction when closed */
+}
+.sidebar.open {
+  left: 0;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;   /* Can now be clicked */
+}
+
+    .sidebar ul li:hover { color: #c40000; font-weight: bold; padding-left: 5px; }
+   .sidebar ul,
+.sidebar ul li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .header {
+      text-align: center; padding: 1.1rem 1rem 0.5rem;
+      animation: fadeInDown 1s ease-in-out;
+    }
+    .logo-section { display: flex; justify-content: center; align-items: center; gap: 1.2rem; margin-bottom: 0.4rem; }
+    .logo { height: 92px; filter: drop-shadow(0 0 5px #c40000); }
+    .title {
+      font-family: 'Sans serif', bold;
+      font-size: 4rem; color: #fff6db;
+      letter-spacing: 0.09em; user-select: none;
+      display: inline-block; transition: color 0.3s; cursor: pointer; position: relative;
+    }
+    .title span { display: inline-block; opacity: 0; }
+    .loaded .title span { opacity: 1 !important; }
+
+    .nav-buttons {
+      display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;
+      margin-top: 0.5rem; margin-bottom: 1.3rem;
+    }
+    .nav-buttons button {
+      background: #c40000; color: white; border: none;
+      padding: 0.6rem 1.5rem; border-radius: 36px; cursor: pointer;
+      font-weight: 700; font-size: 1.1rem; transition: all 0.3s cubic-bezier(.45,1.46,.43,1.02);
+      box-shadow: 0 0 10px rgba(255,0,0,0.3);
+      position: relative; overflow: hidden; z-index: 1; outline: none;
+    }
+    .nav-buttons button:hover, .nav-buttons button:focus {
+      background: #ff1c1c; color: #fff6db;
+      box-shadow: 0 0 20px 2px #ff9d7b77,0 0 0 2px #fff6db33;
+      transform: scale(1.1) translateY(-1.5px);
+    }
+
+    .domain-header {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-align: center;
+      color: #fff9ed;
+      margin: 0 0 2.2rem 0;
+      text-shadow: 0 3px 30px #c4000030;
+    }
+    .domain-tagline {
+      text-align: center;
+      color: #ffd6aa;
+      font-size: 1.27rem;
+      font-weight: 500;
+      line-height: 1.5;
+      max-width: 950px;
+      margin: 0 auto 2.6rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Cards grid with featured rectangle card images */
+    .cards-featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2vw 4vw;
+      max-width: 1050px;
+      margin: 0 auto 2.2rem auto;
+      align-items: stretch;
+    }
+    .feature-card {
+      background: rgba(0, 0, 0, 0.63);
+      border-radius: 2.3rem 0.7rem 2.7rem 0.7rem;
+      box-shadow: 0 13px 40px rgba(170,30,50,0.27);
+      border: 1.1px solid rgba(255,90,60,0.21);
+      padding: 2.3rem 1.8rem 1.8rem 2.6rem;
+      margin-bottom: 2.2rem;
+      text-align: left;
+      position: relative;
+      transition: transform 0.18s, box-shadow 0.22s;
+      overflow: hidden;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      z-index: 0;
+      animation: slideIn 1s cubic-bezier(.55,1.6,.43,1.02);
+    }
+    .feature-card:nth-child(2) {
+      margin-top: 68px; /* stagger 2nd card for asymmetry */
+    }
+    .feature-card:hover {
+      transform: scale(1.04) rotateZ(-0.8deg);
+      box-shadow: 0 20px 70px 0 rgba(255,50,90,0.17);
+      z-index: 1;
+    }
+    .feature-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 1.1rem;
+      margin-bottom: 2.1rem;
+      box-shadow: 0 6px 25px #c4000030;
+      align-self: flex-start;
+      background: #222;
+      display: block;
+    }
+    .feature-label {
+      display: inline-block;
+      background: linear-gradient(90deg,#ff965c,#ff7a59 70%,#c40000);
+      color: #240100;
+      font-weight: 800;
+      font-size: 1.14rem;
+      border-radius: 28px;
+      padding: 0.4em 1.3em;
+      position: absolute;
+      top: 24px; left: 38px;
+      box-shadow: 0 2px 18px #ffeccc44;
+      letter-spacing: 0.03em;
+    }
+    .feature-title {
+      font-size: 1.47rem;
+      font-weight: 700;
+      color: #ffd7c5;
+      margin-bottom: 1.1rem;
+      letter-spacing: 0.01em;
+    }
+    .feature-desc {
+      font-size: 1.04rem;
+      color: #efe1e1;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      line-height: 1.55;
+    }
+
+    /* Device illustrations/info below cards */
+    .devices-row {
+      display: flex;
+      justify-content: center;
+      gap: 3.5vw;
+      align-items: flex-end;
+      margin: 2.8rem auto 1.5rem auto;
+      max-width: 950px;
+      flex-wrap: wrap;
+    }
+    .device-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(24, 24, 25, 0.72);
+      border-radius: 1.3rem 1.3rem 1rem 1.6rem;
+      box-shadow: 0 2px 18px #c4000022;
+      padding: 1.1rem 2.7rem 1.1rem 2.1rem;
+      margin-bottom: 1.5rem;
+      min-width: 220px;
+      max-width: 340px;
+    }
+    .device-block img {
+      width: 200px; height: 200px; object-fit: cover;
+      margin-bottom: 0.9rem;
+      border-radius: 0.4rem;
+      filter: drop-shadow(0 0 9px #ffeccc90);
+      background: #222;
+      display: block;
+    }
+    .device-name {
+      font-size: 1.00rem;
+      font-weight: 700;
+      color: #ffe0b4;
+      margin-bottom: 0.3rem;
+    }
+    .device-info {
+      font-size: 0.99rem; color: #fff4e1; text-align: center;
+    }
+    footer {
+      background: #220000;
+      text-align: center;
+      padding: 1.2rem 1rem;
+      color: #ffb18e;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: inset 0 4px 8px #c40000cc;
+      user-select: none; letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 990px) {
+      .cards-featured { grid-template-columns: 1fr; gap: 2.5rem 0; }
+      .feature-card,
+      .feature-card:nth-child(2) { margin-top: 0; }
+      .devices-row { flex-direction: column; align-items: stretch; gap: 2.1rem; }
+      .device-block { margin: 0 auto 1.6rem auto; min-width: 90vw; max-width: 99vw; }
+      .join-us-section { margin: 2rem auto 3rem auto; padding: 1.5rem 1rem; max-width: 95vw; }
+    }
+    @keyframes slideIn {
+      0% { opacity:0; transform:translateY(66px);}
+      70% { opacity:0.9; transform:translateY(-18px);}
+      100% { opacity:1; transform:translateY(0);}
+    }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <div class="hamburger" onclick="toggleSidebar()">
+    <div></div><div></div><div></div>
+  </div>
+  <div class="sidebar" id="sidebar"><br> <br><br>
+    <ul>
+      <li onclick="window.location.href='aimlds.html'">AI, ML & DS</li><br><br>
+      <li onclick="window.location.href='iot.html'">Robotics & IoT</li> <br><br>
+      <li onclick="window.location.href='web.html'">Full Stack, UI/UX & DevOps</li><br><br>
+      <li onclick="window.location.href='cybersec.html'">CyberSecurity</li><br><br>
+      <li onclick="window.location.href='research.html'">Innovation and Research</li><br><br>
+    </ul>
+  </div>
+  <header class="header">
+    <div class="logo-section">
+      <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+      <h1 class="title">
+        <span>A</span>.<span>S</span>.<span>T</span>.<span>R</span>.<span>A</span>
+      </h1>
+    </div>
+     <nav class="nav-buttons">
+      <button onclick="window.location.href='index.html'">Home</button>
+      <button onclick="window.location.href='index.html#about-section'">About Us</button>
+      <button onclick="window.location.href='members.html'">Members</button>
+      <button onclick="window.location.href='projects.html'">Projects</button>
+    </nav>
+  </header>
+  <main>
+    <div class="domain-header">Robotics & IoT</div>
+    <div class="domain-tagline">
+      Connecting the digital and physical- clubbing code, hardware, and creativity. From ESPs and Arduinos to smart robots, the future is hands-on!
+    </div>
+    <section class="cards-featured">
+      <div class="feature-card">
+        <img src="esp32.jpg" alt="ESP WROOM-32 Board" />
+        <div class="feature-label">ESP WROOM-32</div>
+        <div class="feature-title">All-in-one IoT MCU</div>
+        <div class="feature-desc">
+          Versatile microcontroller with Wi-Fi, Bluetooth, and deep sleep for robust IoT and robotics innovation. Use it for gesture-control, data logging, or remote intelligence!
+        </div>
+      </div>
+      <div class="feature-card">
+        <img src="arduino.jpg" alt="Arduino Uno Board" />
+        <div class="feature-label">Arduino Uno</div>
+        <div class="feature-title">The Classic Coders' Board</div>
+        <div class="feature-desc">
+          Open-source platform based on ATmega328P for rapid prototyping, making line-followers, smart sensors, etc.
+        </div>
+      </div>
+    </section>
+
+    <!-- Row of device/robot/LED illustrations with info but no card container -->
+    <section class="devices-row">
+      <div class="device-block">
+        <img src="led.png" alt="Robot LED Setup" />
+        <div class="device-name">Arduino Blinking of LED.</div>
+        <div class="device-info">A simple Arduino program that turns an LED on and off repeatedly, creating a visible blinking effect.</div>
+      </div>
+      <div class="device-block">
+        <img src="car.jpg" alt="Robot with Ultrasonic" />
+        <div class="device-name">Ultrasonic Obstacle-Avoider</div>
+        <div class="device-info">ESP32 or Arduino reads data from an ultrasonic sensor to detect & dodge obstacles great for smart delivery.</div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 A.S.T.R.A | Robotics & IoT | All Rights Reserved
+  </footer>
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+    }
+    window.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add('loaded');
+      setTimeout(() => {
+        document.querySelectorAll('.title span').forEach(span => {
+          span.style.opacity = '';
+        });
+      }, 600);
+    });
+  </script>
+
+  <!-- Firebase & A.S.T.RA Core Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/public-dynamic.js"></script>
+</body>
+</html>

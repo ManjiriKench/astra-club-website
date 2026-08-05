@@ -1,0 +1,210 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  level     Int
+  createdAt DateTime @default(now())
+  members   Member[]
+}
+
+model Domain {
+  id          String     @id @default(uuid())
+  name        String     @unique
+  tagline     String?
+  description String?
+  logoUrl     String?
+  createdAt   DateTime   @default(now())
+  members     Member[]
+  projects    Project[]
+  proposals   Proposal[]
+}
+
+model Member {
+  id               String    @id @default(uuid())
+  firstName        String
+  lastName         String
+  personalEmail    String    @unique
+  collegeEmail     String?   @unique
+  phoneNumber      String?
+  roleId           String
+  role             Role      @relation(fields: [roleId], references: [id])
+  primaryDomainId  String?
+  primaryDomain    Domain?   @relation(fields: [primaryDomainId], references: [id])
+  linkedinUrl      String?
+  githubUrl        String?
+  profileImageUrl  String?
+  joinDate         DateTime?
+  status           String    @default("active") // "active" or "alumni"
+  performanceScore Int       @default(0)
+  createdAt        DateTime  @default(now())
+
+  projects         ProjectMember[]
+  ledProjects      Project[]         @relation("ProjectLead")
+  mentoredProjects Project[]         @relation("ProjectMentor")
+  blogs            Blog[]
+  mediaAssets      MediaAsset[]
+  progressLogs     ProgressLog[]
+  contributions    ContributionLog[]
+}
+
+model Project {
+  id                  String  @id @default(uuid())
+  title               String
+  shortSummary        String?
+  detailedDescription String?
+  systemType          String  @default("Both") // Software, Hardware, Both
+  projectType         String  @default("R&D") // Personal, Faculty, R&D, etc
+  phase               String  @default("Ideation") // Ideation, Proposal, Approved, Development, Testing, Deployment, Completed
+  techStack           String? // Comma separated or JSON string
+  githubUrl           String?
+  demoUrl             String?
+  expectedRecognition String?
+
+  domainId String
+  domain   Domain @relation(fields: [domainId], references: [id])
+
+  leadId   String?
+  lead     Member? @relation("ProjectLead", fields: [leadId], references: [id])
+  mentorId String?
+  mentor   Member? @relation("ProjectMentor", fields: [mentorId], references: [id])
+
+  status        String    @default("planned") // planned, ongoing, completed
+  startDate     DateTime?
+  endDate       DateTime?
+  coverImageUrl String?
+  createdAt     DateTime  @default(now())
+
+  members      ProjectMember[]
+  progressLogs ProgressLog[]
+  patents      Patent[]
+}
+
+model ProjectMember {
+  projectId        String
+  memberId         String
+  contributionRole String?
+  project          Project @relation(fields: [projectId], references: [id])
+  member           Member  @relation(fields: [memberId], references: [id])
+
+  @@id([projectId, memberId])
+}
+
+model Event {
+  id                String   @id @default(uuid())
+  title             String
+  description       String?
+  type              String   @default("Workshop") // Workshop, Hackathon, Guest Lecture, etc.
+  mode              String   @default("Offline") // Online, Offline
+  eventDate         DateTime
+  venue             String?
+  budgetDetails     String?
+  speakers          String?
+  participantsCount Int?
+  eventReportUrl    String?
+  coverImageUrl     String?
+  status            String   @default("upcoming") // upcoming, completed
+  createdAt         DateTime @default(now())
+}
+
+model Blog {
+  id            String    @id @default(uuid())
+  title         String
+  content       String
+  authorId      String?
+  author        Member?   @relation(fields: [authorId], references: [id])
+  coverImageUrl String?
+  publishedDate DateTime?
+  status        String    @default("draft") // draft, published
+  createdAt     DateTime  @default(now())
+}
+
+model MediaAsset {
+  id               String   @id @default(uuid())
+  filePath         String
+  documentCategory String   @default("general_media") // proposal, report, patent, event_report, general_media
+  fileType         String
+  altText          String?
+  uploadedBy       String?
+  uploader         Member?  @relation(fields: [uploadedBy], references: [id])
+  createdAt        DateTime @default(now())
+}
+
+model ProgressLog {
+  id          String   @id @default(uuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+  loggedById  String
+  loggedBy    Member   @relation(fields: [loggedById], references: [id])
+  date        DateTime @default(now())
+  summary     String
+  issuesFaced String?
+  createdAt   DateTime @default(now())
+}
+
+model Patent {
+  id                    String    @id @default(uuid())
+  title                 String
+  projectId             String
+  project               Project   @relation(fields: [projectId], references: [id])
+  type                  String    @default("Provisional") // Provisional, Complete
+  status                String    @default("Draft") // Draft, Under Review, Filed, Published, Granted
+  filingNumber          String?
+  filingDate            DateTime?
+  abstract              String?
+  facultyApprovalStatus String    @default("Pending")
+  remarks               String?
+  createdAt             DateTime  @default(now())
+}
+
+model Proposal {
+  id               String   @id @default(uuid())
+  title            String
+  domainId         String
+  domain           Domain   @relation(fields: [domainId], references: [id])
+  problemStatement String
+  objectives       String
+  litReview        String?
+  methodology      String
+  outcomes         String
+  innovation       String?
+  feasibility      String?
+  resources        String?
+  riskAssessment   String?
+  references       String?
+  status           String   @default("Draft") // Draft, Pending Approval, Approved, Rejected
+  createdAt        DateTime @default(now())
+}
+
+model ContributionLog {
+  id          String   @id @default(uuid())
+  memberId    String
+  member      Member   @relation(fields: [memberId], references: [id])
+  action      String // Added to project, Organized event, etc.
+  description String?
+  date        DateTime @default(now())
+  points      Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Lead {
+  id           String   @id @default(uuid())
+  firstName    String
+  lastName     String
+  email        String
+  phoneNumber  String?
+  interestArea String?
+  message      String?
+  status       String   @default("new") // new, contacted, accepted, rejected
+  createdAt    DateTime @default(now())
+}

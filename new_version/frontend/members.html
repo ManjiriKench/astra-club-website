@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A.S.T.R.A | Members</title>
+    <!-- Using Orbitron for a futuristic look and Poppins for readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+     <style>
+        /* New Color Variables for a consistent scheme */
+        :root {
+            --primary-red: #FF6347; /* A vibrant, softer red */
+            --dark-red: #B22222;    /* A dark, earthy red */
+            --deep-black: #000000;
+            --bg-dark: #0A0A0A;
+            --bg-medium: #151515;
+            --text-color: #E0E0E0;
+            --glow-color: #FF7F50; /* A soft coral glow */
+        }
+
+        /* Global styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Top Nav Bar - centralized layout */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 20px 20px;
+            padding: 1.2rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--dark-red);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-in-out;
+            transition: all 0.3s ease;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            height: 80px;
+            filter: drop-shadow(0 0 5px var(--glow-color));
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-color);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a, .nav-btn {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-btn:hover {
+            color: var(--primary-red);
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+        .nav-btn {
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+        }
+
+        /* Main Content Wrapper for layout change */
+        .main-content {
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 100px; /* To prevent content from being hidden by the fixed nav bar */
+        }
+
+        /* Section Header */
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(255, 99, 71, 0.4);
+            animation: neonGlow 2s ease-in-out infinite alternate;
+        }
+
+        /* Member Page Styles */
+        .section-divider {
+            width: 80%;
+            margin: 0 auto 1rem auto;
+            border: none;
+            height: 2px;
+            background: #ff7060;
+            box-shadow: 0 0 5px #ff7060, 0 0 15px #ff7060;
+            animation: glow-divider 3s infinite alternate ease-in-out;
+        }
+        @keyframes glow-pulse {
+            0% { width: 20%; box-shadow: 0 0 5px #ffb18e; }
+            50% { width: 40%; box-shadow: 0 0 10px #ffb18e, 0 0 20px #ffb18e; }
+            100% { width: 20%; box-shadow: 0 0 5px #ffb18e; }
+        }
+        @keyframes glow-divider {
+            0% { box-shadow: 0 0 5px #ff7060, 0 0 15px #ff7060; }
+            50% { box-shadow: 0 0 10px #ff7060, 0 0 30px #ff7060; }
+            100% { box-shadow: 0 0 5px #ff7060, 0 0 15px #ff7060; }
+        }
+        .members-lead-row {
+            display: flex; justify-content: center; align-items: stretch; gap: 2.7rem;
+            max-width: 1260px; margin: 2.5rem auto 1.8rem auto; flex-wrap: wrap;
+        }
+        .lead-card {
+            background: #240105f8;
+            border-radius: 1.2rem;
+            box-shadow: 0 0 18px #c40000bb;
+            padding: 1.4rem 1.2rem 1.2rem;
+            width: 220px; min-width: 220px; max-width: 320px; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            margin-bottom: 1.1rem;
+        }
+        .lead-card img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 2.3px solid #ff7a59;
+            filter: drop-shadow(0 0 8px #ffd7b0);
+            transition: filter 0.20s, border 0.18s;
+        }
+        .lead-card:hover { transform: translateY(-8px) scale(1.05); box-shadow: 0 10px 32px #ff2d2ddb; }
+        .lead-card img:hover { filter: drop-shadow(0 0 16px #ff4a4a);}
+        .mem-role {
+            color: #ff7060; font-size: 1.09rem; font-weight: 700;
+            letter-spacing: 0.03em; margin-bottom: 0.38rem;
+        }
+        .mem-name {
+            color: #fffde9; font-size: 1.03rem; font-weight: 600; letter-spacing: 0.01em;
+        }
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+        .social-icon {
+            color: #ff7060;
+            transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .social-icon:hover {
+            color: #ffb18e;
+            transform: scale(1.2);
+        }
+        .social-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor; /* Use currentColor to inherit color from parent */
+        }
+        
+        .faculty-card {
+            max-width: 250px;
+            margin: 0 auto;
+        }
+        .core-members-grid, .domain-leads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, var(--bg-dark), var(--deep-black));
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-color);
+            font-weight: 300;
+            font-size: 0.9rem;
+            border-top: 2px solid var(--dark-red);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+        @keyframes neonGlow {
+            0% { text-shadow: 0 0 10px var(--primary-red), 0 0 20px var(--primary-red); }
+            100% { text-shadow: 0 0 20px var(--primary-red), 0 0 30px var(--primary-red), 0 0 40px var(--primary-red); }
+        }
+
+        /* Media Queries for responsiveness */
+        @media screen and (max-width: 768px) {
+            .top-nav {
+                width: 100%;
+                border-radius: 0;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .nav-links { display: none; }
+            .nav-btn { display: block; margin-top: 1rem; }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            .section-header { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div class="logo-section">
+            <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+            <span class="title">A.S.T.R.A</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about-section">Blogs</a>
+            <a href="index.html#events-section">Events</a>
+            <a href="index.html#domains-section">Domains</a>
+            <a href="projects.html">Projects</a>   
+            <a href="members.html" class="active">Members</a>
+        </div>
+        <button class="nav-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform', '_blank')">Join Us</button>
+    </nav> <br><br>
+    <br>
+    <div class="main-content">
+        <h1 class="section-header">Members</h1>
+        <hr class="section-divider" />
+    <main role="main" tabindex="-1" id="dynamic-members-main">
+        <div style="text-align: center; padding: 50px;">
+            <p id="members-loading-text">Loading members from database...</p>
+        </div>
+    </main>
+    <footer>
+        &copy; 2025 A.S.T.R.A | All Rights Reserved
+    </footer>
+
+    <!-- Scripts for the new logo animation background -->
+    <script>
+        const canvas = document.getElementById('logo-animation-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        let animationFrameId;
+        const totalDuration = 5000; // Total animation duration in milliseconds
+        let startTime = null;
+
+        // Function to create a path and get its length for stroke animation
+        function createPath(callback) {
+            const path = new Path2D();
+            callback(path);
+            const tempCtx = document.createElement('canvas').getContext('2d');
+            tempCtx.lineWidth = 2;
+            tempCtx.strokeStyle = 'white';
+            tempCtx.stroke(path);
+            return { path, length: tempCtx.measureText('a').width * 100 }; // A simple approximation for path length
+        }
+
+        // Define paths for the lotus and arrow
+        const lotusCenterPath = createPath(p => {
+            p.moveTo(0, -60);
+            p.bezierCurveTo(-15, -45, -15, -15, 0, 0);
+            p.bezierCurveTo(15, -15, 15, -45, 0, -60);
+        });
+
+        const lotusLeftPetal = createPath(p => {
+            p.moveTo(0, -50);
+            p.bezierCurveTo(-40, -40, -50, -10, -50, 0);
+            p.lineTo(0, -25);
+        });
+        const lotusRightPetal = createPath(p => {
+            p.moveTo(0, -50);
+            p.bezierCurveTo(40, -40, 50, -10, 50, 0);
+            p.lineTo(0, -25);
+        });
+
+        const lotusLeftWing = createPath(p => {
+            p.moveTo(-40, -10);
+            p.bezierCurveTo(-70, 0, -60, 30, 0, 40);
+        });
+        const lotusRightWing = createPath(p => {
+            p.moveTo(40, -10);
+            p.bezierCurveTo(70, 0, 60, 30, 0, 40);
+        });
+
+        const lotusStem = createPath(p => {
+            p.moveTo(0, 40);
+            p.bezierCurveTo(5, 50, -5, 60, 0, 70);
+        });
+
+        const arrowShaftPath = createPath(p => {
+            p.moveTo(-100, 0);
+            p.lineTo(100, 0);
+        });
+
+        const arrowHeadPath = createPath(p => {
+            p.moveTo(100, 0);
+            p.lineTo(130, -5);
+            p.lineTo(130, 5);
+            p.lineTo(100, 0);
+        });
+
+        const arrowFletchingPath = createPath(p => {
+            p.moveTo(-100, 0);
+            p.lineTo(-120, -5);
+            p.lineTo(-115, 0);
+            p.lineTo(-120, 5);
+            p.lineTo(-100, 0);
+            p.moveTo(-105, 0);
+            p.lineTo(-125, -5);
+            p.lineTo(-120, 0);
+            p.lineTo(-125, 5);
+            p.lineTo(-105, 0);
+        });
+
+        // Store all paths in an array for easy iteration
+        const allPaths = [
+            { path: lotusCenterPath, color: 'white', start: 0, end: 1500 },
+            { path: lotusLeftPetal, color: 'white', start: 1000, end: 2000 },
+            { path: lotusRightPetal, color: 'white', start: 1000, end: 2000 },
+            { path: lotusLeftWing, color: 'white', start: 1500, end: 2500 },
+            { path: lotusRightWing, color: 'white', start: 1500, end: 2500 },
+            { path: lotusStem, color: 'white', start: 2000, end: 3000 },
+            { path: arrowShaftPath, color: 'red', start: 2500, end: 3500 },
+            { path: arrowHeadPath, color: 'red', start: 3200, end: 4000 },
+            { path: arrowFletchingPath, color: 'red', start: 3500, end: 4500 }
+        ];
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        function draw(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+
+            allPaths.forEach(item => {
+                let progress = 0;
+                if (elapsed >= item.start) {
+                    progress = Math.min(1, (elapsed - item.start) / (item.end - item.start));
+                }
+
+                if (progress > 0) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = item.color === 'red' ? 'var(--primary-red)' : 'var(--text-color)';
+                    ctx.lineWidth = 2;
+                    ctx.shadowColor = 'var(--glow-color)';
+                    ctx.shadowBlur = 10;
+                    
+                    const length = item.path.length; // This is a rough approximation
+                    ctx.setLineDash([length]);
+                    ctx.lineDashOffset = length * (1 - progress);
+                    ctx.stroke(item.path.path);
+                    
+                    ctx.setLineDash([]); // Reset line dash
+                    ctx.shadowBlur = 0; // Reset shadow
+                }
+            });
+
+            ctx.restore();
+
+            if (elapsed < totalDuration) {
+                animationFrameId = requestAnimationFrame(draw);
+            } else {
+                // Draw the final state once animation is complete
+                drawFinalLogo();
+            }
+        }
+
+        function drawFinalLogo() {
+             ctx.clearRect(0, 0, width, height);
+             ctx.save();
+             ctx.translate(width / 2, height / 2);
+             allPaths.forEach(item => {
+                ctx.beginPath();
+                ctx.strokeStyle = item.color === 'red' ? 'var(--primary-red)' : 'var(--text-color)';
+                ctx.lineWidth = 2;
+                ctx.shadowColor = 'var(--glow-color)';
+                ctx.shadowBlur = 10;
+                ctx.stroke(item.path.path);
+                ctx.shadowBlur = 0;
+            });
+            ctx.restore();
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            startTime = null;
+            animationFrameId = requestAnimationFrame(draw);
+        });
+
+        
+        async function fetchAndRenderMembers() {
+            try {
+                const response = await fetch('http://localhost:5000/api/members');
+                if (!response.ok) throw new Error('Network err');
+                const members = await response.json();
+                
+                const groups = { 
+                    1: { title: 'Faculty', items: [] }, 
+                    2: { title: 'Core Team', items: [] }, 
+                    3: { title: 'Domain Leads', items: [] }, 
+                    4: { title: 'Technical Members', items: [] } 
+                };
+                
+                members.forEach(m => { 
+                    const lvl = m.role ? m.role.level : 4; 
+                    if(groups[lvl]) groups[lvl].items.push(m); else groups[4].items.push(m); 
+                });
+                
+                const container = document.getElementById('dynamic-members-main');
+                container.innerHTML = '';
+                
+                for(let lvl = 1; lvl <= 4; lvl++) {
+                    const group = groups[lvl];
+                    if(group.items.length === 0) continue;
+                    
+                    let html = '<h2 class="section-title">' + group.title + '</h2><section class="members-lead-row">';
+                    
+                    group.items.forEach(m => {
+                        html += `
+                        <div class="lead-card">
+                            <img src="${m.profileImageUrl || 'default.jpg'}" alt="${m.firstName} ${m.lastName}"/>
+                            <div class="mem-name">${m.firstName} ${m.lastName}</div>
+                            <div class="mem-role">${m.role ? m.role.name : 'Member'}</div>
+                            <div class="social-links">
+                                ${m.linkedinUrl && m.linkedinUrl !== '#' ? `<a href="${m.linkedinUrl}" class="social-icon" aria-label="LinkedIn Profile"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.23 0H1.77C.79 0 0 .78 0 1.75v20.5C0 23.22.79 24 1.77 24h20.46c.98 0 1.77-.78 1.77-1.75V1.75c0-.97-.79-1.75-1.77-1.75zM7.05 20.47H3.59V9H7.05v11.47zM5.32 7.55c-1.12 0-2.03-.92-2.03-2.05s.91-2.05 2.03-2.05c1.13 0 2.04.92 2.04 2.05s-.91 2.05-2.04 2.05zm15.15 12.92h-3.51v-5.6c0-1.34-.02-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97v5.7H9.83V9h3.38v1.54h.05c.47-.9 1.63-1.86 3.32-1.86 3.56 0 4.22 2.34 4.22 5.38v6.31z"/></svg></a>` : ''}
+                                ${m.githubUrl && m.githubUrl !== '#' ? `<a href="${m.githubUrl}" class="social-icon" aria-label="GitHub Profile"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.332-1.756-1.332-1.756-1.09-.744.083-.73.083-.73 1.205.085 1.838 1.238 1.838 1.238 1.07 1.834 2.809 1.306 3.492.998.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.52.125-3.174 0 0 1.005-.322 3.301 1.23.956-.266 1.96-.399 2.96-.399s1.004.133 2.96.399c2.296-1.552 3.3-1.23 3.3-1.23.665 1.654.26 2.871.125 3.174.77.84 1.235 1.91 1.235 3.22 0 4.61-2.807 5.625-5.474 5.923.43.37.81 1.096.81 2.213 0 1.604-.015 2.89-.015 3.284 0 .319.21.694.825.575C20.565 22.102 24 17.59 24 12.297c0-6.627-5.373-12-12-12z"/></svg></a>` : ''}
+                            </div>
+                        </div>`;
+                    });
+                    
+                    html += '</section><br><hr class="section-divider" /><br>';
+                    container.innerHTML += html;
+                }
+            } catch (err) {
+                console.error(err);
+                document.getElementById('members-loading-text').innerText = 'Failed to load members. Is the backend running?';
+            }
+        }
+window.onload = function() {
+            resizeCanvas();
+            animationFrameId = requestAnimationFrame(draw);
+        
+            fetchAndRenderMembers();
+        };
+    </script>
+</body>
+</html>

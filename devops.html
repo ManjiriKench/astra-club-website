@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A.S.T.R.A | Technical Operations & DevOps</title>
+    <!-- Using Orbitron for a futuristic look and Poppins for readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* New Color Variables for a consistent scheme */
+        :root {
+            --primary-red: #FF4500; /* A vibrant red */
+            --dark-red: #8B0000;    /* A dark red */
+            --deep-black: #000000;
+            --bg-dark: #000000;
+            --bg-medium: #111111;
+            --text-color: #cccccc;
+            --glow-color: #FF6347; /* A bright, glowing red */
+            --gradient-start: #110000;
+            --gradient-end: #000000;
+        }
+
+        /* Global styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        /* Interactive Logo Animation Background Canvas */
+        #logo-animation-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            background: #000000; /* True black background */
+            pointer-events: none; /* Do not block interaction with the content */
+        }
+
+        /* Top Nav Bar - centralized layout */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 20px 20px;
+            padding: 1.2rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--dark-red);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-in-out;
+            transition: all 0.3s ease;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            height: 80px;
+            filter: drop-shadow(0 0 5px var(--glow-color));
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--text-color);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a, .nav-btn {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-btn:hover {
+            color: var(--primary-red);
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+        .nav-btn {
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+        }
+
+        /* Hamburger menu and sidebar for mobile */
+        .hamburger { display: none; }
+        .sidebar { display: none; }
+
+        /* Main Content Wrapper for the new layout */
+        .main-content {
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* New Header Section for DevOps page */
+        .page-header-section {
+            text-align: center;
+            padding-top: 8rem; /* Space for the fixed nav bar */
+            padding-bottom: 2rem;
+        }
+        .page-header {
+            font-family: 'sans-serif';
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: white;
+            text-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+        }
+        .page-tagline {
+            font-family: 'Poppins', sans-serif;
+            color: rgb(234, 190, 133);
+            font-size: 1.2rem;
+            font-weight: 500;
+            font-style: italic;
+            line-height: 1.45;
+            max-width: 920px;
+            margin: 1.5rem auto 0 auto;
+        }
+
+        /* New Two-Column Grid Layout for content */
+        .devops-grid {
+            display: grid;
+            grid-template-columns: 2fr;
+            gap: 3rem;
+            padding: 2rem 0;
+        }
+        @media (min-width: 700px) {
+            .devops-grid {
+                grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+            }
+        }
+
+        /* Styling for the content cards */
+        .devops-card {
+            background: linear-gradient(145deg, rgba(30, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+            border: 2px solid rgba(255, 69, 0, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: left;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+        .devops-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            border-color: var(--primary-red);
+        }
+        .devops-card-header {
+            font-family: 'sans-serif';
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-red);
+            padding-bottom: 0.5rem;
+        }
+        .devops-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .devops-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .devops-card li {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .devops-card li::before {
+            content: '›'; /* A simple arrow for a futuristic bullet point */
+            position: absolute;
+            left: 0;
+            color: var(--primary-red);
+            font-weight: 700;
+        }
+        /* New styling for images in the cards */
+        .card-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 2px solid rgba(255, 69, 0, 0.3);
+            
+            transition: filter 0.4s ease;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, var(--bg-dark), var(--deep-black));
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-color);
+            font-weight: 300;
+            font-size: 0.9rem;
+            border-top: 2px solid var(--dark-red);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+        @keyframes neonGlow {
+            0% { text-shadow: 0 0 10px var(--primary-red), 0 0 20px var(--primary-red); }
+            100% { text-shadow: 0 0 20px var(--primary-red), 0 0 30px var(--primary-red), 0 0 40px var(--primary-red); }
+        }
+
+        /* Media Queries for responsiveness */
+        @media screen and (max-width: 768px) {
+            .top-nav {
+                width: 100%;
+                border-radius: 0;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .nav-links { display: none; }
+            .nav-btn { display: block; margin-top: 1rem; }
+            .page-header { font-size: 2.5rem; }
+            .page-tagline { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="logo-animation-bg"></canvas>
+
+    <nav class="top-nav">
+        <div class="logo-section">
+            <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+            <span class="title">A.S.T.R.A</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about-section">Blogs</a>
+            <a href="index.html#events-section">Events</a>
+            <a href="index.html#domains-section">Domains</a>
+            <a href="projects.html">Projects</a>
+            <a href="members.html">Members</a>
+        </div>
+        <button class="nav-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform', '_blank')">Join Us</button>
+    </nav>
+
+    <main class="main-content">
+        <!-- Main header for the page -->
+        <header class="page-header-section" role="region" aria-label="DevOps domain header">
+            <h2 class="page-header">Technical Operations & DevOps</h2>
+            <p class="page-tagline">
+                "Bridging the gap between development and operations to build resilient, scalable systems."
+            </p>
+        </header>
+
+        <!-- Two-column grid for different content sections -->
+        <section class="devops-grid">
+            <!-- Technical Operations Card -->
+            <div class="devops-card">
+                <h3 class="devops-card-header">Technical Operations</h3>
+                <img src="tech.jpg" alt="Technical operations room" class="card-image">
+                <p>
+                    Technical Operations is the backbone of any organization, ensuring that systems run smoothly, reliably, and securely. It involves the management and maintenance of the physical and virtual infrastructure that supports all software and services.
+                </p>
+                <ul>
+                    <li>System Administration & Monitoring</li>
+                    <li>Network Management & Security</li>
+                    <li>Incident Response & Disaster Recovery</li>
+                    <li>Hardware & Infrastructure Maintenance</li>
+                </ul>
+            </div>
+
+            <!-- DevOps Card -->
+            <div class="devops-card">
+                <h3 class="devops-card-header">DevOps</h3>
+                <img src="devops.png" alt="DevOps pipeline chart" class="card-image">
+                <p>
+                    DevOps is a set of practices that combines software development and IT operations. It aims to shorten the systems development life cycle and provide continuous delivery with high software quality. Our focus is on automation, collaboration, and continuous improvement.
+                </p>
+                <ul>
+                    <li>Continuous Integration / Continuous Delivery (CI/CD)</li>
+                    <li>Infrastructure as Code (IaC)</li>
+                    <li>Automation & Scripting</li>
+                    <li>Containerization & Orchestration (e.g., Docker, Kubernetes)</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        &copy; 2025 A.S.T.R.A | AI-driven Systems for Technological Research and Advancement | All Rights Reserved
+    </footer>
+
+    <!-- Scripts for the logo animation background -->
+    <script>
+        const canvas = document.getElementById('logo-animation-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        let animationFrameId;
+        let startTime = null;
+        let pathLotus, pathArrow;
+        let pathLotusLength, pathArrowLength;
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        function createPaths() {
+            pathLotus = new Path2D();
+            pathLotus.moveTo(0, -60);
+            pathLotus.lineTo(-15, -45);
+            pathLotus.lineTo(-15, -15);
+            pathLotus.lineTo(0, 0);
+            pathLotus.lineTo(15, -15);
+            pathLotus.lineTo(15, -45);
+            pathLotus.lineTo(0, -60);
+            pathLotus.moveTo(0, -50);
+            pathLotus.lineTo(-40, -40);
+            pathLotus.lineTo(-50, -10);
+            pathLotus.lineTo(-50, 0);
+            pathLotus.lineTo(0, -25);
+            pathLotus.lineTo(-50, -10);
+            pathLotus.moveTo(0, -50);
+            pathLotus.lineTo(40, -40);
+            pathLotus.lineTo(50, -10);
+            pathLotus.lineTo(50, 0);
+            pathLotus.lineTo(0, -25);
+            pathLotus.lineTo(50, -10);
+            pathLotus.moveTo(-40, -10);
+            pathLotus.lineTo(-70, 0);
+            pathLotus.lineTo(-60, 30);
+            pathLotus.lineTo(0, 40);
+            pathLotus.moveTo(40, -10);
+            pathLotus.lineTo(70, 0);
+            pathLotus.lineTo(60, 30);
+            pathLotus.lineTo(0, 40);
+            pathLotus.moveTo(0, 40);
+            pathLotus.lineTo(5, 50);
+            pathLotus.lineTo(-5, 60);
+            pathLotus.lineTo(0, 70);
+
+            pathArrow = new Path2D();
+            pathArrow.moveTo(-100, 0);
+            pathArrow.lineTo(100, 0);
+            pathArrow.moveTo(-100, 0);
+            pathArrow.lineTo(-120, -5);
+            pathArrow.lineTo(-115, 0);
+            pathArrow.lineTo(-120, 5);
+            pathArrow.lineTo(-100, 0);
+            pathArrow.moveTo(-105, 0);
+            pathArrow.lineTo(-125, -5);
+            pathArrow.lineTo(-120, 0);
+            pathArrow.lineTo(-125, 5);
+            pathArrow.lineTo(-105, 0);
+            pathArrow.moveTo(100, 0);
+            pathArrow.lineTo(130, -5);
+            pathArrow.lineTo(130, 5);
+            pathArrow.lineTo(100, 0);
+        }
+
+        function calculatePathLength(path) {
+            let length = 0;
+            const points = [];
+            return 2500;
+        }
+
+        function draw(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const totalDuration = 5000;
+
+            ctx.clearRect(0, 0, width, height);
+            
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            const scale = Math.min(width, height) / 800;
+            ctx.scale(scale, scale);
+
+            const lotusProgress = Math.min(1, elapsed / 3000);
+            if (lotusProgress > 0) {
+                ctx.strokeStyle = 'var(--text-color)';
+                ctx.lineWidth = 2;
+                ctx.shadowColor = 'var(--glow-color)';
+                ctx.shadowBlur = 10;
+                
+                ctx.setLineDash([pathLotusLength, pathLotusLength]);
+                ctx.lineDashOffset = pathLotusLength * (1 - lotusProgress);
+                ctx.stroke(pathLotus);
+            }
+
+            const arrowDelay = 2000;
+            const arrowProgress = Math.min(1, (elapsed - arrowDelay) / (totalDuration - arrowDelay));
+            if (arrowProgress > 0) {
+                ctx.strokeStyle = 'var(--primary-red)';
+                ctx.lineWidth = 2;
+                ctx.shadowColor = 'var(--glow-color)';
+                ctx.shadowBlur = 10;
+                
+                ctx.setLineDash([pathArrowLength, pathArrowLength]);
+                ctx.lineDashOffset = pathArrowLength * (1 - arrowProgress);
+                ctx.stroke(pathArrow);
+            }
+
+            ctx.restore();
+
+            if (elapsed < totalDuration) {
+                animationFrameId = requestAnimationFrame(draw);
+            } else {
+                drawFinalLogo();
+            }
+        }
+        
+        function drawFinalLogo() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            const scale = Math.min(width, height) / 800;
+            ctx.scale(scale, scale);
+
+            ctx.strokeStyle = 'var(--text-color)';
+            ctx.lineWidth = 2;
+            ctx.shadowColor = 'var(--glow-color)';
+            ctx.shadowBlur = 10;
+            ctx.setLineDash([]); // Reset line dash
+            ctx.stroke(pathLotus);
+            
+            ctx.strokeStyle = 'var(--primary-red)';
+            ctx.lineWidth = 2;
+            ctx.shadowColor = 'var(--glow-color)';
+            ctx.shadowBlur = 10;
+            ctx.stroke(pathArrow);
+            
+            ctx.restore();
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            startTime = null;
+            animationFrameId = requestAnimationFrame(draw);
+        });
+
+        window.onload = function() {
+            resizeCanvas();
+            createPaths();
+            pathLotusLength = 1500;
+            pathArrowLength = 1000;
+            animationFrameId = requestAnimationFrame(draw);
+        };
+    </script>
+
+  <!-- Firebase & A.S.T.RA Core Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/public-dynamic.js"></script>
+</body>
+</html>

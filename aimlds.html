@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A.S.T.R.A | AI, ML & DS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #0a0a0a 30%, #381212 50%, #200202 100%);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+    .hamburger {
+      position: fixed; top: 20px; left: 20px; z-index: 1001;
+      cursor: pointer; display: flex; flex-direction: column; gap: 5px;
+    }
+    .hamburger div {
+      width: 30px; height: 3px; background: white; border-radius: 2px;
+      transition: 0.3s ease;
+    }
+    .sidebar {
+      position: fixed; top: 0; left: -260px; height: 100%;
+      width: 260px; background: #1c1c1c;
+      padding: 2rem 1rem; box-shadow: 2px 0 20px rgba(0,0,0,0.6);
+      transition: left 0.4s ease; z-index: 1000;
+    }
+    .sidebar.open { left: 0; }
+    .sidebar ul { list-style: none; }
+    .sidebar ul li {
+      margin-bottom: 1rem; color: white; cursor: pointer; transition: 0.3s;
+    }
+    .sidebar ul li:hover { color: #c40000; font-weight: bold; padding-left: 5px; }
+
+    .header {
+      text-align: center; padding: 1.1rem 1rem 0.5rem;
+      animation: fadeInDown 1s ease-in-out;
+    }
+    .logo-section {
+      display: flex; justify-content: center; align-items: center;
+      gap: 1.2rem; margin-bottom: 0.4rem;
+    }
+    .logo { height: 92px; filter: drop-shadow(0 0 5px #c40000); }
+    .title {
+      font-family: 'Sans serif', bold;
+      font-size: 4rem; color: #fff6db;
+      transition: color 0.3s; cursor: pointer; position: relative;
+      display: inline-block; letter-spacing: 0.09em; user-select: none;
+    }
+    .title span { display: inline-block; opacity: 0; }
+    .loaded .title span { opacity: 1 !important; }
+
+    .nav-buttons {
+      display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;
+      margin-top: 0.5rem; margin-bottom: 1.3rem;
+    }
+    .nav-buttons button {
+      background: #c40000; color: white; border: none;
+      padding: 0.6rem 1.5rem; border-radius: 36px; cursor: pointer;
+      font-weight: 700; font-size: 1.1rem; transition: all 0.3s cubic-bezier(.45,1.46,.43,1.02);
+      box-shadow: 0 0 10px rgba(255,0,0,0.3);
+      position: relative; overflow: hidden; z-index: 1; outline: none;
+    }
+    .nav-buttons button::after {
+      content: ''; display: block; position: absolute; left: 20%; bottom: 10px;
+      width: 60%; height: 2.8px;
+      background: linear-gradient(90deg,#fff2,#c40000 60%,#fff2);
+      border-radius: 2px; opacity: 0;
+      transition: opacity 0.2s, transform 0.2s; transform: scaleX(0.9);
+      pointer-events: none;
+    }
+    .nav-buttons button:hover::after { opacity: 1; transform: scaleX(1.15);}
+    .nav-buttons button:hover, .nav-buttons button:focus {
+      background: #ff1c1c; color: #fff6db;
+      box-shadow: 0 0 20px 2px #ff9d7b77,0 0 0 2px #fff6db33;
+      transform: scale(1.1) translateY(-1.5px);
+      outline: none; transition: .18s;
+    }
+
+    .domain-header {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-align: center;
+      color: #fff9ed;
+      margin: 0 0 2.2rem 0;
+      text-shadow: 0 3px 30px #c4000030;
+    }
+    .domain-tagline {
+      text-align: center;
+      color: #ffd6aa;
+      font-size: 1.27rem;
+      font-weight: 500;
+      line-height: 1.5;
+      max-width: 950px;
+      margin: 0 auto 2.6rem auto;
+      padding: 0 1rem;
+    }
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 3.5rem;
+      padding: 2.7rem 1rem 3.7rem;
+      flex-wrap: wrap;
+      max-width: 1440px;
+      margin: 0 auto 2.2rem auto;
+    }
+    .card {
+      background: #000000;
+      border-radius: 1.40rem;
+      box-shadow: 0 4px 28px rgba(232, 222, 222, 0.39);
+      padding: 1.8rem 1.8rem 1.5rem;
+      width: 410px;
+      min-height: 250px;
+      max-width: 94vw;
+      margin-bottom: 1.4rem;
+      text-align: center;
+      transition:
+        transform 0.35s cubic-bezier(.45,1.46,.43,1.02),
+        box-shadow 0.35s cubic-bezier(.45,1.46,.43,1.02),
+        filter 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      will-change: transform, box-shadow, filter;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: scale(1.037) translateY(-6px) rotateZ(-0.45deg);
+      box-shadow: 0 10px 44px 0 rgba(255, 80, 80, 0.25),
+                  0 4px 38px 0 rgba(234, 137, 65, 0.09),
+                  0 2px 14px 0 rgba(204, 0, 0, 0.10);
+      filter: brightness(1.018);
+      z-index: 2;
+    }
+    .card img {
+      width: 100%;
+      border-radius: 0.8rem 0.8rem 0 0;
+      height: 220px;
+      object-fit: cover;
+      transition:
+        filter 0.20s cubic-bezier(.45,1.46,.43,1.02),
+        transform 0.25s cubic-bezier(.45,1.46,.43,1.02);
+      will-change: filter, transform;
+    }
+    .card:hover img {
+      filter: brightness(1.08); /* No blur here! */
+      transform: scale(1.018) rotateZ(-0.7deg);
+    }
+    .domain-label {
+      background: #c40000;
+      color: white;
+      border-radius: 20px;
+      padding: 0.73rem 1.55rem;
+      display: inline-block;
+      margin-bottom: 1.05rem;
+      font-weight: 700;
+      font-size: 1.23rem;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.28);
+      transition: .22s cubic-bezier(.45,1.46,.43,1.02), transform 0.28s cubic-bezier(.45,1.46,.43,1.02);
+    }
+    .card:hover .domain-label {
+      background: #ff965c;
+      color: #211;
+      box-shadow: 0 6px 45px #ff965c55;
+      transform: scale(1.062) translateY(-3px);
+      letter-spacing: 0.04em;
+    }
+    .card p {
+      font-size: 1.19rem;
+      color: #ccc;
+      margin-bottom: 0.7rem;
+      font-weight: 500;
+      transition: color 0.22s;
+    }
+    .card:hover p {
+      color: #fff6dd;
+    }
+    footer {
+      background: #220000;
+      text-align: center;
+      padding: 1.2rem 1rem;
+      color: #ffb18e;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: inset 0 4px 8px #c40000cc;
+      user-select: none; letter-spacing: 0.05em;
+    }
+    @media (max-width: 900px) {
+      .cards { flex-direction: column; gap: 1.7rem;}
+      .card { width: 99vw; max-width: 410px; min-width: 225px;}
+      .logo-section { flex-direction: column;}
+      .nav-buttons { gap: 1.4rem; margin-top: 0.7rem; margin-bottom: 1.1rem; }
+    }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <div class="hamburger" onclick="toggleSidebar()">
+    <div></div><div></div><div></div>
+  </div>
+  <div class="sidebar" id="sidebar"><br> <br><br>
+    <ul>
+      <li onclick="window.location.href='aimlds.html'">AI, ML & DS</li><br>
+      <li onclick="window.location.href='iot.html'">Robotics & IoT</li> <br>
+      <li onclick="window.location.href='web.html'">Full Stack, UI/UX & DevOps</li><br>
+      <li onclick="window.location.href='cybersec.html'">CyberSecurity</li><br>
+      <li onclick="window.location.href='research.html'">Innovation and Research</li><br>
+    </ul>
+  </div>
+  <header class="header">
+    <div class="logo-section">
+      <img src="A2.png" alt="A.S.T.R.A Logo" class="logo"/>
+      <h1 class="title">
+        <span>A</span>.<span>S</span>.<span>T</span>.<span>R</span>.<span>A</span>
+      </h1>
+    </div>
+     <nav class="nav-buttons">
+      <button onclick="window.location.href='index.html'">Home</button>
+      <button onclick="window.location.href='index.html#about-section'">About Us</button>
+      <button onclick="window.location.href='members.html'">Members</button>
+      <button onclick="window.location.href='projects.html'">Projects</button>
+    </nav>
+  </header>
+  <main>
+    <div class="domain-header">Artificial Intelligence, Machine Learning & Data Science</div>
+    <div class="domain-tagline" style="color: #e9d992; font-style: italic; margin-top:2.1rem; font-size:1.17rem;">
+      “We turn data into discoveries and algorithms into action!”
+    </div>
+    <section class="cards">
+      <div class="card">
+        <img src="ai.jpg" alt="Artificial Intelligence" /> <br>
+        <div class="domain-label">Artificial Intelligence</div>
+        <p>
+          AI builds smart systems that mimic human reasoning for vision, speech, decision-making, and translation, using methods like ML, computer vision, and NLP.
+        </p>
+      </div>
+      <div class="card">
+        <img src="ml.png" alt="Machine Learning" /><br>
+        <div class="domain-label">Machine Learning</div>
+        <p>
+          ML uses algorithms to <b>learn from data </b>using supervised, unsupervised, and reinforcement methods to recognize patterns, automate tasks, and make predictions.
+        </p>
+      </div>
+      <div class="card">
+        <img src="ds.jpg" alt="Data Science" /><br>
+        <div class="domain-label">Data Science</div>
+        <p>
+          Data Science uses statistics, ML, and data visualization to extract meaning, drive insights, and build predictive models for business and research.
+        </p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 A.S.T.R.A | AIMLDS | All Rights Reserved
+  </footer>
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+    }
+    window.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add('loaded');
+      setTimeout(() => {
+        document.querySelectorAll('.title span').forEach(span => {
+          span.style.opacity = '';
+        });
+      }, 600);
+    });
+  </script>
+
+  <!-- Firebase & A.S.T.RA Core Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/public-dynamic.js"></script>
+</body>
+</html>

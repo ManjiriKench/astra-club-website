@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A.S.T.R.A</title>
+    <!-- Using Orbitron for a futuristic look and Poppins for readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* New Color Variables for a consistent scheme */
+        :root {
+            --primary-red: #FF4500; /* A vibrant red */
+            --dark-red: #8B0000;   /* A dark red */
+            --deep-black: #000000;
+            --bg-dark: #000000;
+            --bg-medium: #111111;
+            --text-color: #cccccc;
+            --glow-color: #FF6347; /* A bright, glowing red */
+            --gradient-start: #110000;
+            --gradient-end: #000000;
+        }
+
+        /* Global styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        /* Interactive Network Grid Canvas */
+        #neural-network-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            background: #000000; /* True black background */
+            pointer-events: none;
+        }
+
+        /* Top Nav Bar - centralized layout */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 20px 20px;
+            padding: 1.2rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--dark-red);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-in-out;
+            transition: all 0.3s ease;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            height: 50px;
+            filter: drop-shadow(0 0 5px var(--glow-color));
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--text-color);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a, .nav-btn {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-btn:hover {
+            color: var(--primary-red);
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+        .nav-btn {
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+        }
+
+        /* Hamburger menu and sidebar for mobile */
+        .hamburger { display: none; }
+        .sidebar { display: none; }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 2rem;
+            text-align: center;
+        }
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
+            animation: neonGlow 2s infinite alternate;
+        }
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--primary-red);
+            letter-spacing: 0.1em;
+            margin-top: 1rem;
+        }
+
+        /* Main Content Wrapper for layout change */
+        .main-content {
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Cards - new, cleaner layout */
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .card {
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.7), rgba(0, 0, 0, 0.7));
+            border: 2px solid rgba(255, 69, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 15px 30px rgba(0, 0, 0, 0.6);
+            border-color: var(--primary-red);
+        }
+        .card:hover::before { opacity: 0.1; }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            filter: grayscale(80%);
+            transition: filter 0.4s ease;
+        }
+        .card:hover img { filter: grayscale(0%); }
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        .card p { font-size: 0.9rem; }
+
+        /* About Section - updated grid layout */
+        .about-section {
+            padding: 4rem 0;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .about-card {
+            background: rgba(17, 17, 17, 0.7);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 69, 0, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        .about-card:hover {
+            transform: scale(1.05);
+            border-color: var(--primary-red);
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+        .about-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+        
+        /* New Domains Section */
+        #domains-section {
+            padding: 4rem 0;
+        }
+        .domain-card {
+            background: linear-gradient(135deg, rgba(30, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+            border: 2px solid rgba(255, 69, 0, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+        .domain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        .domain-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, var(--bg-dark), var(--deep-black));
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-color);
+            font-weight: 300;
+            font-size: 0.9rem;
+            border-top: 2px solid var(--dark-red);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+        @keyframes neonGlow {
+            0% { text-shadow: 0 0 10px var(--primary-red), 0 0 20px var(--primary-red); }
+            100% { text-shadow: 0 0 20px var(--primary-red), 0 0 30px var(--primary-red), 0 0 40px var(--primary-red); }
+        }
+
+        /* Media Queries for responsiveness */
+        @media screen and (max-width: 768px) {
+            .top-nav {
+                width: 100%;
+                border-radius: 0;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .nav-links { display: none; }
+            .nav-btn { display: block; margin-top: 1rem; }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            .section-header { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="neural-network-bg"></canvas>
+
+    <nav class="top-nav">
+        <div class="logo-section">
+            <img src="https://placehold.co/50x50/0a0a0a/FF4500?text=A" alt="A.S.T.R.A Logo" class="logo"/>
+            <span class="title">A.S.T.R.A</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#events">Events</a>
+            <a href="#domains-section">Domains</a>
+            <a href="#about-section">About Us</a>
+            <a href="#projects">Projects</a>
+        </div>
+        <button class="nav-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHWbYhYEGoX3_8TJEBbY4nBEivX0HzMNaXenmSoNQR-xzKuw/viewform', '_blank')">Join Us</button>
+    </nav>
+
+    <main class="main-content">
+        <section id="home" class="hero-section">
+            <h1 class="hero-title">A.S.T.R.A</h1>
+            <p class="hero-subtitle">Innovate. Research. Advance.</p>
+        </section>
+
+        <section id="events">
+            <h2 class="section-header">Our Events</h2>
+            <div class="cards">
+                <div class="card">
+                    <img src="https://placehold.co/400x200/111/FF4500?text=Induction" alt="About Us"/>
+                    <h3 class="card-title">Get to know us!</h3>
+                    <p><strong>Date:</strong> Induction, 2025</p>
+                    <p><strong>Venue:</strong> VU Auditorium</p>
+                </div>
+                <div class="card">
+                    <img src="https://placehold.co/400x200/111/FF4500?text=Web+Dev+Bootcamp" alt="Web Dev"/>
+                    <h3 class="card-title">Web-Development Bootcamp</h3>
+                    <p><strong>Date:</strong> Coming soon</p>
+                    <p><strong>Venue:</strong> To be announced</p>
+                </div>
+                <div class="card">
+                    <img src="https://placehold.co/400x200/111/FF4500?text=Research+Workshop" alt="Research"/>
+                    <h3 class="card-title">Research Paper Writing</h3>
+                    <p><strong>Date:</strong> Coming Soon</p>
+                    <p><strong>Venue:</strong> To be announced</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="domains-section">
+            <h2 class="section-header">Our Domains</h2>
+            <div class="about-grid">
+                <div class="domain-card">
+                    <h3>Research and Development</h3>
+                    <p>Fostering a culture of innovation and problem-solving through hands-on research.</p>
+                </div>
+                <div class="domain-card">
+                    <h3>AI/ML</h3>
+                    <p>Exploring the future of artificial intelligence and machine learning with cutting-edge projects.</p>
+                </div>
+                <div class="domain-card">
+                    <h3>Cybersecurity</h3>
+                    <p>Building secure digital foundations and exploring advanced security protocols.</p>
+                </div>
+                <div class="domain-card">
+                    <h3>Robotics</h3>
+                    <p>Designing, building, and programming autonomous and semi-autonomous systems.</p>
+                </div>
+                <div class="domain-card">
+                    <h3>Web-Development</h3>
+                    <p>Creating and deploying modern, responsive, and robust web applications.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-section" class="about-section">
+            <h2 class="section-header">About Us</h2>
+            <p style="text-align: center; font-style: italic; color: var(--primary-red); margin-bottom: 2rem;">
+                “AI-driven Systems for Technological Research and Advancement”
+            </p>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3>Vision</h3>
+                    <p>A.S.T.R.A envisions a vibrant community where research-driven learning fuels innovation, empowering students to explore, create, and lead with purpose.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Mission</h3>
+                    <p>We aim to foster a hands-on, research-oriented environment where students actively engage in solving real-world problems through technology.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Focus Areas</h3>
+                    <p>Research and Development</p>
+                    <p>AI/ML</p>
+                    <p>Cybersecurity</p>
+                    <p>Robotics</p>
+                    <p>Web-Development</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        &copy; 2025 A.S.T.R.A | All Rights Reserved
+    </footer>
+
+    <!-- Scripts for animations -->
+    <script>
+        const canvas = document.getElementById('neural-network-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: null, y: null };
+
+        // Neural Network Variables
+        const neurons = [];
+        const neuronCount = 80; // Increased count for a denser network
+        const neuronRadius = 1.5;
+        const neuronSpeed = 0.5;
+        const neuronLinkDistance = 150;
+        const neuronMouseInfluence = 200;
+
+        // Class for Neural Network Neurons
+        class Neuron {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * neuronSpeed;
+                this.vy = (Math.random() - 0.5) * neuronSpeed;
+                this.size = neuronRadius;
+                this.color = 'rgba(255, 69, 0, 0.6)'; // Red neuron color
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x > width || this.x < 0) this.vx = -this.vx;
+                if (this.y > height || this.y < 0) this.vy = -this.vy;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = 'rgba(255, 99, 71, 0.8)'; // Red glow
+                ctx.shadowBlur = this.size * 3;
+                ctx.fill();
+            }
+        }
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            init();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        function init() {
+            neurons.length = 0;
+            for (let i = 0; i < neuronCount; i++) {
+                neurons.push(new Neuron());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw Neural Network
+            for (let i = 0; i < neurons.length; i++) {
+                neurons[i].update();
+                neurons[i].draw();
+                // Connect to other neurons
+                for (let j = i; j < neurons.length; j++) {
+                    const dx = neurons[i].x - neurons[j].x;
+                    const dy = neurons[i].y - neurons[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < neuronLinkDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(neurons[i].x, neurons[i].y);
+                        ctx.lineTo(neurons[j].x, neurons[j].y);
+                        const opacity = 1 - (distance / neuronLinkDistance);
+                        ctx.strokeStyle = `rgba(255, 69, 0, ${opacity * 0.1})`; // Red link color
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+                // Connect to mouse
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = neurons[i].x - mouse.x;
+                    const dy = neurons[i].y - mouse.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < neuronMouseInfluence) {
+                        ctx.beginPath();
+                        ctx.moveTo(neurons[i].x, neurons[i].y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        const opacity = 1 - (distance / neuronMouseInfluence);
+                        ctx.strokeStyle = `rgba(255, 99, 71, ${opacity * 0.4})`; // Red mouse link glow
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = function() {
+            resizeCanvas();
+            animate();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+CLUB CRM & LOGBOOK SYSTEM – FUNCTIONAL SPECIFICATION  
+ 
+1. PROJECT / R&D TRACKING MODULE 
+A. Basic Details 
+ Project Title 
+ Domain (AI / Robotics / IoT / Web Development / etc.) 
+ System Type: 
+o Software 
+o Hardware 
+o Both 
+ Project Type: 
+o Personal Project 
+o Faculty Project 
+o Competition 
+o Research & Development (R&D) 
+o Patent-Oriented 
+ Project Description (Short Summary + Detailed Explanation) 
+ 
+B. Team Details 
+ Project Lead (Must be a registered member) 
+ Team Members (Multi-select from registered users only) 
+ Faculty Mentor (if applicable) 
+Registration Constraints:  
+ All members must be registered on the website with: 
+o Full Name 
+o Personal Email ID 
+o College Email ID 
+o GitHub Profile Link 
+ Project registration approval will be done exclusively by the Club President 
+ 
+C. Timeline 
+ Start Date 
+ Expected End Date 
+ Expected Duration (Auto-calculated or manual entry) 
+ Current Phase: 
+o Ideation 
+o Proposal Submitted 
+o Approved 
+o Development o Testing 
+o Deployment 
+o Completed 
+ 
+D. Technical Details 
+Tech Stack Template (to be filled in structured format):  
+ Programming Languages: 
+ Frameworks/Libraries: 
+ Hardware Components (if any): 
+ Tools & Platforms: 
+ APIs/Services Used: 
+ Database (if applicable): 
+ Version Control System: 
+Additional Inputs:  
+ GitHub Repository Link (Mandatory after development starts) 
+ Initial Proposal Document (Mandatory at project creation stage) 
+o Must be selected from 3 predefined formats provided in CRM 
+ Final Project Report (Mandatory after completion) 
+ 
+E. Progress Tracking 
+ Weekly Progress Logs: 
+o Each entry must contain: 
+ Date 
+ Two-line Progress Summary 
+ Issues/Challenges Faced 
+ 
+F. Outcome 
+ Project Status: 
+o Completed 
+o Ongoing 
+o Dropped 
+ Demo Link (if available) 
+ Final Deliverables Upload 
+ 
+G. Recognition / Expected Output 
+ Expected Recognition Type: 
+o Research Paper 
+o Conference Submission 
+o Patent Filing o Competition Outcome 
+o Product Deployment 
+ 
+2. PATENT MODULE(optional) 
+ Patent Title 
+ Associated Project (Linked from Project Module) 
+ Inventors (Auto-filled from team members, editable if needed) 
+ Patent Type: 
+o Provisional 
+o Complete 
+ Status: 
+o Draft 
+o Under Review 
+o Filed 
+o Published 
+o Granted 
+ Filing Number 
+ Filing Date 
+ Abstract 
+ Description Document Upload 
+ Supporting Documents 
+ Faculty/Coordinator Approval Status 
+ Remarks / Comments Section 
+ 
+3. PROPOSAL MODULE (DETAILED R&D FORMAT) 
+Proposal Submission Structure: 
+ Title of Proposal 
+ Domain 
+ Problem Statement 
+ Objectives 
+ Literature Review / Existing Solutions 
+ Proposed Methodology 
+ System Architecture (optional diagram upload) 
+ Expected Outcomes 
+ Innovation / Uniqueness 
+ Feasibility Analysis 
+ Resource Requirements: 
+o Software 
+o Hardware 
+o Budget (if applicable) 
+ Timeline Plan (Phase-wise)  Team Details 
+ Risk Assessment 
+ References 
+Instructions for R&D Proposal Submission: 
+ Proposal must strictly follow the provided CRM format 
+ All sections are mandatory unless specified 
+ Content must be original and plagiarism-free 
+ Clearly define innovation and research contribution 
+ Include practical feasibility and implementation scope 
+ Submission will undergo review and approval by: 
+o Club President 
+o Faculty Coordinator 
+ 
+4. EVENTS / WORKSHOPS MODULE 
+ Event creation and registration will be performed only by the Club President 
+Fields: 
+ Event Name 
+ Type (Workshop / Seminar / Hackathon / Guest Lecture) 
+ Date(s) 
+ Venue / Mode (Online/Offline) 
+ Organising Team 
+ Budget Details 
+ Speakers / Guests 
+ Number of Participants 
+ Event Report Upload 
+ Media Upload (Photos/Videos) 
+ 
+5. MEMBER CONTRIBUTION TRACKING 
+ Member Name 
+ Role (Core / Lead / Member) 
+ Projects Involved 
+ Events Contributed 
+ Contribution Logs 
+ Performance Indicator / Score (optional internal metric) 
+ 
+6. DOCUMENT REPOSITORY 
+ Proposal Formats 
+ Project Reports 
+ Patent Documents 
+ Event Reports 
+ Official Letters and Approvals  Media Assets 
+ 
+7. ACCESS CONTROL SYSTEM (STRICT GOVERNANCE) 
+Club President 
+ Full and exclusive administrative control 
+ Can: 
+o Approve projects 
+o Reject projects 
+o Delete projects 
+o Approve/reject proposals and patents 
+o Manage users and system data 
+o Create and manage events 
+ 
+Core Team 
+ Full operational access except restricted administrative actions 
+ Can: 
+o Create and edit projects 
+o Manage proposals and logs 
+ Cannot: 
+o Approve or reject projects 
+o Delete projects 
+ 
+Project Leads 
+ Create and manage their own projects 
+ Add registered members to the team 
+ Update: 
+o Progress logs 
+o Technical details 
+ Cannot: 
+o Delete projects 
+o Approve/reject projects 
+ 
+Members 
+ View accessible projects 
+ Submit proposals 
+ Contribute to assigned projects 
+Restrictions:   Cannot edit project details 
+ Cannot delete projects 
+ Cannot approve/reject projects 
+ Can only update their own assigned progress logs 
+ 
+Faculty Coordinator 
+ View all projects 
+ Add remarks/comments 
+ Approve research and patent submissions 
+ 
+Public View (Website) 
+ Visible: 
+o Completed Projects 
+o Achievements 
+o Events 
+ Restricted: 
+o Internal logs 
+o Proposals 
+o Sensitive documents 
+ 
+Club President Access Restriction 
+ Full administrative privileges accessible only via official club email authentication 
+ 
+8. SYSTEM FEATURES (ADVANCED) 
+ Notifications System: 
+o Deadline reminders 
+o Approval alerts 
+o Activity updates 
+ Dashboard Overview: 
+o Total Projects 
+o Active R&D Projects 
+o Patents Filed 
+o Events Conducted 
+ Search & Filtering: 
+o Domain-based filtering 
+o Year-based filtering 
+o Status-based filtering  Auto Report Generator: 
+o Generates structured reports for university submission 
+o Includes project summaries, outcomes, and statistics 
+ Leaderboard: 
+o Tracks member contributions 
+o Ranks based on participation and performance 
+ GitHub/API Integration: 
+o Fetch repository activity 
+o Track commits and updates 
+ Calendar View: 
+o Displays project timelines 
+o Event schedules 
+o Milestone deadlines 
+ 
