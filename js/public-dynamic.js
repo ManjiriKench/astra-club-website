@@ -593,7 +593,7 @@ const INITIAL_MEMBERS_DATA = [
     role: "Social Media Head",
     category: "1",
     domain: "all",
-    imageUrl: "khushi.jpg",
+    imageUrl: "khushi_nanekar.jpg",
     linkedinUrl: "https://www.linkedin.com/in/khushi-nanekar",
     githubUrl: "https://github.com/khushi-nanekar"
   },
