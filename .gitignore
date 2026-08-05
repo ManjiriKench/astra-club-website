@@ -12,6 +12,8 @@ dist/
 
 # Misc & IDE
 .DS_Store
+# Secrets & Credentials
+js/firebase-config.js
 .env
 .env.local
 .env.development.local
