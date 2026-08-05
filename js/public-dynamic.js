@@ -1263,14 +1263,18 @@ async function renderMembersPage() {
   const container = document.getElementById("dynamic-members-main");
   if (!container || !window.location.pathname.includes("members.html")) return;
 
-  const members = await getMembers();
+  // Always force refresh localStorage to show pure PPT roster
+  localStorage.removeItem("astra_members");
+
+  let members = await getMembers();
+  // Strictly filter to PPT Core Members only
+  members = members.filter(m => m.category === "1" || (m.id && m.id.includes("mem-ppt-")));
 
   const LINKEDIN_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;fill:currentColor;"><path d="M22.23 0H1.77C.79 0 0 .78 0 1.75v20.5C0 23.22.79 24 1.77 24h20.46c.98 0 1.77-.78 1.77-1.75V1.75c0-.97-.79-1.75-1.77-1.75zM7.05 20.47H3.59V9H7.05v11.47zM5.32 7.55c-1.12 0-2.03-.92-2.03-2.05s.91-2.05 2.03-2.05c1.13 0 2.04.92 2.04 2.05s-.91 2.05-2.04 2.05zm15.15 12.92h-3.51v-5.6c0-1.34-.02-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97v5.7H9.83V9h3.38v1.54h.05c.47-.9 1.63-1.86 3.32-1.86 3.56 0 4.22 2.34 4.22 5.38v6.31z"/></svg>`;
   const GITHUB_SVG   = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;fill:currentColor;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.332-1.756-1.332-1.756-1.09-.744.083-.73.083-.73 1.205.085 1.838 1.238 1.838 1.238 1.07 1.834 2.809 1.306 3.492.998.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.52.125-3.174 0 0 1.005-.322 3.301 1.23.956-.266 1.96-.399 2.96-.399s1.004.133 2.96.399c2.296-1.552 3.3-1.23 3.3-1.23.665 1.654.26 2.871.125 3.174.77.84 1.235 1.91 1.235 3.22 0 4.61-2.807 5.625-5.474 5.923.43.37.81 1.096.81 2.213 0 1.604-.015 2.89-.015 3.284 0 .319.21.694.825.575C20.565 22.102 24 17.59 24 12.297c0-6.627-5.373-12-12-12z"/></svg>`;
 
   const categories = {
-    "1": { title: "MEET OUR TEAM", items: [] },
-    "2": { title: "TECHNICAL MEMBERS", items: [] }
+    "1": { title: "MEET OUR TEAM", items: [] }
   };
 
   members.forEach(m => {
