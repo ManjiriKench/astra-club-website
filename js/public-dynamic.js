@@ -1498,7 +1498,7 @@ async function renderMembersPage() {
       height: 130px;
       border-radius: 50%;
       object-fit: cover;
-      object-position: center top;
+      object-position: center;
       margin-bottom: 0.9rem;
       border: 2.5px solid #ff7a59;
       filter: drop-shadow(0 0 8px rgba(255,180,130,0.5));
